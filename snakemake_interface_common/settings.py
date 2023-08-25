@@ -11,10 +11,12 @@ class SettingsEnumBase(Enum):
     def all(cls) -> Set[Self]:
         return {item for item in cls}
 
-    def parse_choices_list(self, choices: str) -> List[Self]:
+    @classmethod
+    def parse_choices_list(self, choices: List[str]) -> List[Self]:
         return self._parse_choices_into(choices, list)
 
-    def parse_choices_set(self, choices: str) -> Set[Self]:
+    @classmethod
+    def parse_choices_set(self, choices: List[str]) -> Set[Self]:
         return self._parse_choices_into(choices, set)
 
     @classmethod
@@ -23,7 +25,7 @@ class SettingsEnumBase(Enum):
 
     @classmethod
     def parse_choice(cls, choice: str) -> Self:
-        return choice.replace("-", "_").upper()
+        return cls[choice.replace("-", "_").upper()]
 
     def item_to_choice(self) -> str:
         return self.name.replace("_", "-").lower()
