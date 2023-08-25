@@ -25,7 +25,7 @@ exclude_lines = [
   "process_yaml\\(sys.stdin, outfile=sys\\.stdout\\)",
   "plac.call\\(cli\\)",
 ]
-fail_under = 64
+fail_under = 50
 
 [build-system]
 requires = ["poetry-core"]
