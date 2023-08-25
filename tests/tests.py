@@ -24,12 +24,19 @@ def test_workflow_error_with_rule():
 
 def test_workflow_error_with_rule_and_snakefile():
     with pytest.raises(WorkflowError):
-        raise WorkflowError("This is a test error", rule=DummyRule(), snakefile="test_snakefile")
+        raise WorkflowError(
+            "This is a test error", rule=DummyRule(), snakefile="test_snakefile"
+        )
 
 
 def test_workflow_error_with_rule_and_snakefile_and_lineno():
     with pytest.raises(WorkflowError):
-        raise WorkflowError("This is a test error", rule=DummyRule(), snakefile="test_snakefile", lineno=1)
+        raise WorkflowError(
+            "This is a test error",
+            rule=DummyRule(),
+            snakefile="test_snakefile",
+            lineno=1,
+        )
 
 
 def test_api_error():

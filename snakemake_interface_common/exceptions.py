@@ -37,7 +37,13 @@ class WorkflowError(Exception):
         else:
             return f"{arg.__class__.__name__}: {arg}"
 
-    def __init__(self, *args, lineno: Optional[int]=None, snakefile: Optional[Path]=None, rule: Optional[RuleInterface]=None):
+    def __init__(
+        self,
+        *args,
+        lineno: Optional[int] = None,
+        snakefile: Optional[Path] = None,
+        rule: Optional[RuleInterface] = None,
+    ):
         super().__init__("\n".join(self.format_arg(arg) for arg in args))
         if rule is not None:
             self.lineno = rule.lineno
