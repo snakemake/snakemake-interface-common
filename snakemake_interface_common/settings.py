@@ -9,8 +9,6 @@ class ParseChoicesType(Enum):
 
 
 class SettingsEnumBase(ABC):
-    parse_choices_type: ParseChoicesType = ParseChoicesType.SET
-
     @classmethod
     def choices(cls) -> List[str]:
         return sorted(item.item_to_choice() for item in cls)
@@ -19,9 +17,14 @@ class SettingsEnumBase(ABC):
     def all(cls) -> Set[Self]:
         return {item for item in cls}
 
+    def parse_choices_list(self, choices: str) -> List[Self]:
+        return self._parse_choices_into(choices, list)
+
+    def parse_choices_set(self, choices: str) -> Set[Self]:
+        return self._parse_choices_into(choices, set)
+
     @classmethod
-    def parse_choices(cls, choices: str) -> List[Self]:
-        container = set if cls.parse_choices_type == ParseChoicesType.SET else list
+    def _parse_choices_into(cls, choices: str, container: List | Set) -> List[Self]:
         return container(cls.parse_choice(choice) for choice in choices)
 
     @classmethod
