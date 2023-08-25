@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.1.0...v1.2.0) (2023-08-25)
+
+
+### Features
+
+* added SettingsEnumBase ([7e63a01](https://github.com/snakemake/snakemake-interface-common/commit/7e63a01cac77111cdd8e23ccadbcb92812da7efa))
+
 ## [1.1.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.0.0...v1.1.0) (2023-08-25)
 
 
