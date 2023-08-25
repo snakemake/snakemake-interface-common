@@ -3,7 +3,15 @@ __copyright__ = "Copyright 2023, Johannes Köster"
 __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
+from pathlib import Path
 import textwrap
+from typing import Optional
+
+from snakemake_interface_common.rules import RuleInterface
+
+
+class ApiError(Exception):
+    pass
 
 
 class WorkflowError(Exception):
@@ -14,7 +22,7 @@ class WorkflowError(Exception):
         elif isinstance(arg, WorkflowError):
             spec = ""
             if arg.rule is not None:
-                spec += f"rule {arg.rule}"
+                spec += f"rule {arg.rule.name}"
             if arg.snakefile is not None:
                 if spec:
                     spec += ", "
@@ -29,7 +37,7 @@ class WorkflowError(Exception):
         else:
             return f"{arg.__class__.__name__}: {arg}"
 
-    def __init__(self, *args, lineno=None, snakefile=None, rule=None):
+    def __init__(self, *args, lineno: Optional[int]=None, snakefile: Optional[Path]=None, rule: Optional[RuleInterface]=None):
         super().__init__("\n".join(self.format_arg(arg) for arg in args))
         if rule is not None:
             self.lineno = rule.lineno
