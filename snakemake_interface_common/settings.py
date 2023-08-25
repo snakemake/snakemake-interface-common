@@ -1,14 +1,8 @@
-from abc import ABC, abstractmethod
 from enum import Enum
 from typing import List, Self, Set
 
 
-class ParseChoicesType(Enum):
-    SET = 0
-    LIST = 1
-
-
-class SettingsEnumBase(ABC):
+class SettingsEnumBase(Enum):
     @classmethod
     def choices(cls) -> List[str]:
         return sorted(item.item_to_choice() for item in cls)
@@ -37,14 +31,14 @@ class SettingsEnumBase(ABC):
     def __str__(self):
         return self.item_to_choice()
 
-    @abstractmethod
-    def __iter__(self):
-        ...
+    # @abstractmethod
+    # def __iter__(self):
+    #     ...
 
-    @abstractmethod
-    def name(self) -> str:
-        ...
+    # @abstractmethod
+    # def name(self) -> str:
+    #     ...
 
-    @abstractmethod
-    def value(self) -> str:
-        ...
+    # @abstractmethod
+    # def value(self) -> str:
+    #     ...
