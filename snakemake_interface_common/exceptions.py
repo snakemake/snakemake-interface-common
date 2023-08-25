@@ -5,6 +5,7 @@ __license__ = "MIT"
 
 import textwrap
 
+
 class WorkflowError(Exception):
     @staticmethod
     def format_arg(arg):
