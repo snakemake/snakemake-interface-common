@@ -57,5 +57,7 @@ def test_settings_enum():
     assert "bar" == DummyEnum.BAR.item_to_choice()
     assert ["bar", "foo"] == DummyEnum.choices()
     assert {DummyEnum.FOO, DummyEnum.BAR} == DummyEnum.all()
-    assert [DummyEnum.FOO, DummyEnum.BAR] == DummyEnum.parse_choices_list(["foo", "bar"])
+    assert [DummyEnum.FOO, DummyEnum.BAR] == DummyEnum.parse_choices_list(
+        ["foo", "bar"]
+    )
     assert {DummyEnum.FOO, DummyEnum.BAR} == DummyEnum.parse_choices_set(["foo", "bar"])
