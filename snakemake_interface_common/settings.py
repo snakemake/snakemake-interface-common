@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Set, TypeVar
+from typing import List, Set, TypeVar, Union
 
 TSettingsEnumBase = TypeVar("TSettingsEnumBase", bound="SettingsEnumBase")
 
@@ -23,7 +23,7 @@ class SettingsEnumBase(Enum):
 
     @classmethod
     def _parse_choices_into(
-        cls, choices: str, container: List | Set
+        cls, choices: str, container: Union[List, Set]
     ) -> List[TSettingsEnumBase]:
         return container(cls.parse_choice(choice) for choice in choices)
 
