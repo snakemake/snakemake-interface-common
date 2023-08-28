@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.3.0...v1.3.1) (2023-08-28)
+
+
+### Bug Fixes
+
+* ensure Python 3.7 compatibility ([6597b9c](https://github.com/snakemake/snakemake-interface-common/commit/6597b9c42a8c09608bd32741fd7615128190a51a))
+
 ## [1.3.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.2.0...v1.3.0) (2023-08-25)
 
 
