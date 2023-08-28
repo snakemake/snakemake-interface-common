@@ -22,7 +22,9 @@ class SettingsEnumBase(Enum):
         return self._parse_choices_into(choices, set)
 
     @classmethod
-    def _parse_choices_into(cls, choices: str, container: List | Set) -> List[TSettingsEnumBase]:
+    def _parse_choices_into(
+        cls, choices: str, container: List | Set
+    ) -> List[TSettingsEnumBase]:
         return container(cls.parse_choice(choice) for choice in choices)
 
     @classmethod
