@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.3.1...v1.3.2) (2023-08-28)
+
+
+### Bug Fixes
+
+* return frozenset from SettingsEnumBase.all() ([a6e20d8](https://github.com/snakemake/snakemake-interface-common/commit/a6e20d8a8677f10c57b4c990c272c61714bccbd4))
+
 ## [1.3.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.3.0...v1.3.1) (2023-08-28)
 
 
