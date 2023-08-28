@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Set, TypeVar, Union
+from typing import FrozenSet, List, Set, TypeVar, Union
 
 TSettingsEnumBase = TypeVar("TSettingsEnumBase", bound="SettingsEnumBase")
 
@@ -10,8 +10,8 @@ class SettingsEnumBase(Enum):
         return sorted(item.item_to_choice() for item in cls)
 
     @classmethod
-    def all(cls) -> Set[TSettingsEnumBase]:
-        return {item for item in cls}
+    def all(cls) -> FrozenSet[TSettingsEnumBase]:
+        return frozenset(item for item in cls)
 
     @classmethod
     def parse_choices_list(self, choices: List[str]) -> List[TSettingsEnumBase]:
