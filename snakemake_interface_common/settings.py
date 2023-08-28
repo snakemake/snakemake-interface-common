@@ -1,5 +1,7 @@
 from enum import Enum
-from typing import List, Self, Set
+from typing import List, Set, TypeVar
+
+TSettingsEnumBase = TypeVar("TSettingsEnumBase", bound="SettingsEnumBase")
 
 
 class SettingsEnumBase(Enum):
@@ -8,23 +10,23 @@ class SettingsEnumBase(Enum):
         return sorted(item.item_to_choice() for item in cls)
 
     @classmethod
-    def all(cls) -> Set[Self]:
+    def all(cls) -> Set[TSettingsEnumBase]:
         return {item for item in cls}
 
     @classmethod
-    def parse_choices_list(self, choices: List[str]) -> List[Self]:
+    def parse_choices_list(self, choices: List[str]) -> List[TSettingsEnumBase]:
         return self._parse_choices_into(choices, list)
 
     @classmethod
-    def parse_choices_set(self, choices: List[str]) -> Set[Self]:
+    def parse_choices_set(self, choices: List[str]) -> Set[TSettingsEnumBase]:
         return self._parse_choices_into(choices, set)
 
     @classmethod
-    def _parse_choices_into(cls, choices: str, container: List | Set) -> List[Self]:
+    def _parse_choices_into(cls, choices: str, container: List | Set) -> List[TSettingsEnumBase]:
         return container(cls.parse_choice(choice) for choice in choices)
 
     @classmethod
-    def parse_choice(cls, choice: str) -> Self:
+    def parse_choice(cls, choice: str) -> TSettingsEnumBase:
         return cls[choice.replace("-", "_").upper()]
 
     def item_to_choice(self) -> str:
@@ -32,15 +34,3 @@ class SettingsEnumBase(Enum):
 
     def __str__(self):
         return self.item_to_choice()
-
-    # @abstractmethod
-    # def __iter__(self):
-    #     ...
-
-    # @abstractmethod
-    # def name(self) -> str:
-    #     ...
-
-    # @abstractmethod
-    # def value(self) -> str:
-    #     ...
