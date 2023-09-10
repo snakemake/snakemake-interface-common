@@ -15,18 +15,11 @@ class ApiError(Exception):
 
 
 class WorkflowError(Exception):
-    @staticmethod
-    def format_arg(arg):
+    def format_arg(self, arg):
         if isinstance(arg, str):
             return arg
         elif isinstance(arg, WorkflowError):
-            spec = ""
-            if arg.rule is not None:
-                spec += f"rule {arg.rule.name}"
-            if arg.snakefile is not None:
-                if spec:
-                    spec += ", "
-                spec += f"line {arg.lineno}, {arg.snakefile}"
+            spec = self.get_spec(arg)
 
             if spec:
                 spec = f" ({spec})"
@@ -44,7 +37,6 @@ class WorkflowError(Exception):
         snakefile: Optional[Path] = None,
         rule: Optional[RuleInterface] = None,
     ):
-        super().__init__("\n".join(self.format_arg(arg) for arg in args))
         if rule is not None:
             self.lineno = rule.lineno
             self.snakefile = rule.snakefile
@@ -52,3 +44,22 @@ class WorkflowError(Exception):
             self.lineno = lineno
             self.snakefile = snakefile
         self.rule = rule
+
+        # if there is an initial message, append the spec
+        if args and isinstance(args[0], str):
+            spec = self._get_spec(self)
+            if spec:
+                args = [f"{args[0]} ({spec})"] + list(args[1:])
+
+        super().__init__("\n".join(self.format_arg(arg) for arg in args))
+
+    @classmethod
+    def _get_spec(cls, exc):
+        spec = ""
+        if exc.rule is not None:
+            spec += f"rule {exc.rule.name}"
+        if exc.snakefile is not None:
+            if spec:
+                spec += ", "
+            spec += f"line {exc.lineno}, {exc.snakefile}"
+        return spec
