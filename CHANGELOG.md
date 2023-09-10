@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.3](https://github.com/snakemake/snakemake-interface-common/compare/v1.3.2...v1.3.3) (2023-09-10)
+
+
+### Bug Fixes
+
+* improved exception messages ([c4254c0](https://github.com/snakemake/snakemake-interface-common/commit/c4254c04c00e066a9676ad14af9b1a21cd338712))
+
 ## [1.3.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.3.1...v1.3.2) (2023-08-28)
 
 
