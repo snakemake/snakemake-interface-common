@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.4.0...v1.4.1) (2023-09-19)
+
+
+### Bug Fixes
+
+* fixed typo in method name ([a3a1f9a](https://github.com/snakemake/snakemake-interface-common/commit/a3a1f9a88b9a0ea72f160aa3a381c18bfc205773))
+
 ## [1.4.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.3.3...v1.4.0) (2023-09-19)
 
 
