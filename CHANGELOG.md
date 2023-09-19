@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.3.3...v1.4.0) (2023-09-19)
+
+
+### Features
+
+* add generic plugin registry ([#9](https://github.com/snakemake/snakemake-interface-common/issues/9)) ([8fb3349](https://github.com/snakemake/snakemake-interface-common/commit/8fb3349130f4338293c38db7be55695ad5b742d6))
+
+
+### Bug Fixes
+
+* fix typo in method name when calling _get_spec ([253e984](https://github.com/snakemake/snakemake-interface-common/commit/253e984e6dfd3788bfbf5e2759831d20e98a53d8))
+
 ## [1.3.3](https://github.com/snakemake/snakemake-interface-common/compare/v1.3.2...v1.3.3) (2023-09-10)
 
 
