@@ -19,7 +19,7 @@ class WorkflowError(Exception):
         if isinstance(arg, str):
             return arg
         elif isinstance(arg, WorkflowError):
-            spec = self.get_spec(arg)
+            spec = self._get_spec(arg)
 
             if spec:
                 spec = f" ({spec})"
