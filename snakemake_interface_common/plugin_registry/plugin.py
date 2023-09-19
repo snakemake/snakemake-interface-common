@@ -57,7 +57,7 @@ class PluginBase(ABC):
         argparser."""
 
         # Cut out early if we don't have custom parameters to add
-        if not self.has_executor_settings():
+        if not self.has_settings_cls():
             return
 
         # Convenience handle
