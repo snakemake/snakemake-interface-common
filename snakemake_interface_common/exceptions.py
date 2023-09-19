@@ -63,3 +63,8 @@ class WorkflowError(Exception):
                 spec += ", "
             spec += f"line {exc.lineno}, {exc.snakefile}"
         return spec
+
+
+class InvalidPluginException(ApiError):
+    def __init__(self, plugin_name: str, message: str):
+        super().__init__(f"Snakemake plugin {plugin_name} is invalid: {message}")
