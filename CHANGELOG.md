@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.6.0...v1.7.0) (2023-09-21)
+
+
+### Features
+
+* add test suite for plugin registries ([36f5b13](https://github.com/snakemake/snakemake-interface-common/commit/36f5b133286ede83c95de1f5238b026fcdef2136))
+
 ## [1.6.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.5.0...v1.6.0) (2023-09-21)
 
 
