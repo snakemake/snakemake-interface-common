@@ -4,7 +4,7 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from abc import ABC, abstractmethod
-from argparse_dataclass import fields
+from dataclasses import fields
 from dataclasses import MISSING, Field, dataclass
 from typing import Any, Type
 import copy

@@ -4,8 +4,7 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from dataclasses import MISSING, Field
-from typing import Any, Dict, List, Literal, Tuple, Union, get_args, get_origin
-from argparse_dataclass import _handle_bool_type
+from typing import Any, Dict, List, Tuple
 
 
 # In Python 3.10, we can use types.NoneType
@@ -22,6 +21,9 @@ def dataclass_field_to_argument_args(
 
     Returns pair of (args, kwargs) to be passed to ArgumentParser.add_argument.
     """
+    from argparse_dataclass import _handle_bool_type
+    from typing import Literal, Union, get_args, get_origin
+
     args = field.metadata.get("args", [f"--{field.name.replace('_', '-')}"])
     positional = not args[0].startswith("-")
     kwargs = {
