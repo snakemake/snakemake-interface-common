@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.4.3...v1.5.0) (2023-09-21)
+
+
+### Features
+
+* add utils ([34ad602](https://github.com/snakemake/snakemake-interface-common/commit/34ad602bdbeb55f3ba961376365f963dbf25ab77))
+
 ## [1.4.3](https://github.com/snakemake/snakemake-interface-common/compare/v1.4.2...v1.4.3) (2023-09-21)
 
 
