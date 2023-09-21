@@ -32,7 +32,14 @@ class PluginRegistryBase(ABC):
 
     def get_plugin(self, plugin_name):
         """Get a plugin by name."""
-        return self.plugins[plugin_name.replace("-", "_")]
+        try:
+            return self.plugins[plugin_name.replace("-", "_")]
+        except KeyError:
+            raise InvalidPluginException(
+                plugin_name,
+                f"The package {self.module_prefix.replace('_', '-')}-{plugin_name} is "
+                "not installed.",
+            )
 
     def register_cli_args(self, argparser):
         """Add arguments derived from self.executor_settings to given
