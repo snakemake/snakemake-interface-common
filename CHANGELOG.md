@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.5.0...v1.6.0) (2023-09-21)
+
+
+### Features
+
+* add helper to retrieve logger singleton ([4cd69e8](https://github.com/snakemake/snakemake-interface-common/commit/4cd69e8521ac8f77c18d4287f5c7025f2aff7d73))
+
 ## [1.5.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.4.3...v1.5.0) (2023-09-21)
 
 
