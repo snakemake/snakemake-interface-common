@@ -15,7 +15,7 @@ NoneType = type(None)
 # TODO remove once https://github.com/mivade/argparse_dataclass/pull/59/files is
 # merged and released
 def dataclass_field_to_argument_args(
-    field: Field[Any],
+    field: Field,
 ) -> Tuple[List[str], Dict[str, Any]]:
     """Extract kwargs of ArgumentParser.add_argument from a dataclass field.
 

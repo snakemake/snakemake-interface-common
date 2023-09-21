@@ -6,7 +6,7 @@ __license__ = "MIT"
 from abc import ABC, abstractmethod
 from dataclasses import fields
 from dataclasses import MISSING, Field, dataclass
-from typing import Any, Type
+from typing import Type
 import copy
 from snakemake_interface_common.exceptions import WorkflowError
 
@@ -131,8 +131,8 @@ class PluginBase(ABC):
         # At this point we want to convert back to the original dataclass
         return dc(**kwargs)
 
-    def _get_cli_arg(self, field: Field[Any]) -> str:
+    def _get_cli_arg(self, field: Field) -> str:
         return self._get_prefixed_name(field).replace("_", "-")
 
-    def _get_prefixed_name(self, field: Field[Any]) -> str:
+    def _get_prefixed_name(self, field: Field) -> str:
         return f"{self.cli_prefix}_{field.name}"
