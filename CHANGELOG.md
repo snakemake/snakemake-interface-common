@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.4.1...v1.4.2) (2023-09-21)
+
+
+### Bug Fixes
+
+* avoid too agressive imports in order to maintain compatibility with older scripts ([4c803d9](https://github.com/snakemake/snakemake-interface-common/commit/4c803d9b0f07feb53eda6faf4786c2b7ec48cc9f))
+
 ## [1.4.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.4.0...v1.4.1) (2023-09-19)
 
 
