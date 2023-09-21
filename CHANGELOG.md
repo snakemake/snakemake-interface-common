@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.7.0...v1.7.1) (2023-09-21)
+
+
+### Bug Fixes
+
+* fix base class name ([fc6fab7](https://github.com/snakemake/snakemake-interface-common/commit/fc6fab7fa8224baff17f520d5b2d7a22dca422a5))
+
 ## [1.7.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.6.0...v1.7.0) (2023-09-21)
 
 
