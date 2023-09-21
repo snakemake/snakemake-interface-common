@@ -5,7 +5,7 @@ from snakemake_interface_common.plugin_registry.plugin import PluginBase, Settin
 from snakemake_interface_common.plugin_registry import PluginRegistryBase
 
 
-class TestRegistry(ABC):
+class TestRegistryBase(ABC):
     @abstractmethod
     def get_registry(self) -> PluginRegistryBase:
         ...
