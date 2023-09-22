@@ -6,6 +6,8 @@ from snakemake_interface_common.plugin_registry import PluginRegistryBase
 
 
 class TestRegistryBase(ABC):
+    __test__ = False
+
     @abstractmethod
     def get_registry(self) -> PluginRegistryBase:
         ...
