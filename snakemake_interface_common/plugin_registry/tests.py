@@ -11,7 +11,7 @@ class TestRegistryBase(ABC):
         ...
 
     @abstractmethod
-    def get_test_plugin_name(self):
+    def get_test_plugin_name(self) -> str:
         ...
 
     @abstractmethod
