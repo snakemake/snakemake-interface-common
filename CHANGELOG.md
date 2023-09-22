@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.7.1...v1.7.2) (2023-09-22)
+
+
+### Bug Fixes
+
+* add type annotation ([aadc36a](https://github.com/snakemake/snakemake-interface-common/commit/aadc36aa78a4e4c414cabfb52c335334ad851047))
+* avoid instantiation of base class by pytest ([bd2d094](https://github.com/snakemake/snakemake-interface-common/commit/bd2d0948021e16bc1ddd4995bc44c894dac12b71))
+
 ## [1.7.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.7.0...v1.7.1) (2023-09-21)
 
 
