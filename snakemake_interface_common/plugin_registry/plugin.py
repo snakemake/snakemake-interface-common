@@ -127,9 +127,10 @@ class PluginBase(ABC):
             # skip over dataclasses._MISSING_TYPE and similar
             if isinstance(value, ArgTypes):
                 # If a parsing function is defined, we pass the arg value to it
-                # in order to get the correct type back. 
-                if "parse_func" in field.metadata:
-                    value = field.metadata["parse_func"](value)
+                # in order to get the correct type back.
+                parse_func = field.metadata.get("parse_func")
+                if parse_func is not None:
+                    value = parse_func(value)
                 kwargs[name] = value
 
         # At this point we want to convert back to the original dataclass
