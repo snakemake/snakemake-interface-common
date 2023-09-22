@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.3](https://github.com/snakemake/snakemake-interface-common/compare/v1.7.2...v1.7.3) (2023-09-22)
+
+
+### Bug Fixes
+
+* plugin retrieval ([5a92361](https://github.com/snakemake/snakemake-interface-common/commit/5a92361e8d0fed0479ff372d6287453418c42886))
+
 ## [1.7.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.7.1...v1.7.2) (2023-09-22)
 
 
