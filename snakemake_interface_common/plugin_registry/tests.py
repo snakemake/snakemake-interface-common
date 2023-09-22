@@ -36,7 +36,7 @@ class TestRegistryBase(ABC):
         registry = self.get_registry()
         parser = argparse.ArgumentParser()
         registry.register_cli_args(parser)
-        prefix = registry.plugins[self.get_test_plugin_name()].cli_prefix
+        prefix = registry.get_plugin(self.get_test_plugin_name()).cli_prefix
         for action in parser._actions:
             if not action.dest == "help":
                 assert action.dest.startswith(prefix)
