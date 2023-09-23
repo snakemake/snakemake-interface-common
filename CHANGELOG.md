@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.7.3...v1.8.0) (2023-09-22)
+
+
+### Features
+
+* support specification of parse_func in settings field metadata. ([ac3dcb7](https://github.com/snakemake/snakemake-interface-common/commit/ac3dcb7cc46413077d80c428b328ac8e6eb90454))
+
 ## [1.7.3](https://github.com/snakemake/snakemake-interface-common/compare/v1.7.2...v1.7.3) (2023-09-22)
 
 
