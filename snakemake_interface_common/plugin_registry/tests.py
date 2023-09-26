@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-import argparse
+import configargparse
 
 from snakemake_interface_common.plugin_registry.plugin import PluginBase, SettingsBase
 from snakemake_interface_common.plugin_registry import PluginRegistryBase
@@ -34,7 +34,7 @@ class TestRegistryBase(ABC):
 
     def test_registry_register_cli_args(self):
         registry = self.get_registry()
-        parser = argparse.ArgumentParser()
+        parser = configargparse.ArgumentParser()
         registry.register_cli_args(parser)
         prefix = registry.get_plugin(self.get_test_plugin_name()).cli_prefix
         for action in parser._actions:
