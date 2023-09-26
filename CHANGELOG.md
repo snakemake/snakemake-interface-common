@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.9.0...v1.9.1) (2023-09-26)
+
+
+### Bug Fixes
+
+* fix TaggedSettings ([44eb317](https://github.com/snakemake/snakemake-interface-common/commit/44eb317e1efa57238818435abc3bcb901b1efcb8))
+
 ## [1.9.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.8.0...v1.9.0) (2023-09-26)
 
 
