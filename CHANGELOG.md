@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.9.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.8.0...v1.9.0) (2023-09-26)
+
+
+### Features
+
+* implemented support for tagged plugin settings ([57bf443](https://github.com/snakemake/snakemake-interface-common/commit/57bf443786c2a94c1eb4c409139e7f86f94c8eae))
+
+
+### Bug Fixes
+
+* improved error handling for tagged settings ([02c67b3](https://github.com/snakemake/snakemake-interface-common/commit/02c67b3015819ae030fc265fa1e6a8e6ba40e052))
+
 ## [1.8.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.7.3...v1.8.0) (2023-09-22)
 
 
