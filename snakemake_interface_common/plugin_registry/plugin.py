@@ -35,8 +35,8 @@ class SettingsBase:
 
 @dataclass
 class TaggedSettings:
-    _inner: Dict[str, SettingsBase] = field(default_factory=dict)
     _plugin_name: str
+    _inner: Dict[str, SettingsBase] = field(default_factory=dict)
 
     def register_settings(self, settings: SettingsBase, tag: Optional[str] = None):
         self._inner[tag] = settings

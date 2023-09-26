@@ -2,6 +2,7 @@ from dataclasses import dataclass
 import pytest
 
 from snakemake_interface_common.exceptions import ApiError, WorkflowError
+from snakemake_interface_common.plugin_registry.plugin import TaggedSettings
 from snakemake_interface_common.rules import RuleInterface
 from snakemake_interface_common.settings import SettingsEnumBase
 
@@ -61,3 +62,11 @@ def test_settings_enum():
         ["foo", "bar"]
     )
     assert {DummyEnum.FOO, DummyEnum.BAR} == DummyEnum.parse_choices_set(["foo", "bar"])
+
+
+def test_tagged_settings():
+    ts = TaggedSettings("foo")
+    ts.register_settings(object())
+    ts.register_settings(object(), tag="foo")
+    ts.get_settings(tag="foo")
+    ts.get_settings()
