@@ -156,17 +156,14 @@ class PluginBase(ABC):
 
         kwargs_tagged = defaultdict(dict)
         kwargs_all = dict()
+        required_args = set()
 
         # These fields will have the executor prefix
         for thefield in fields(dc):
             name, value = get_name_and_value(thefield)
             cli_arg = self._get_cli_arg(thefield)
-
-            if thefield.metadata.get("required") and value is None:
-
-                raise WorkflowError(
-                    f"Missing required argument {cli_arg} for executor {self.name}."
-                )
+            if thefield.metadata.get("required"):
+                required_args.add(name)
 
             def extract_values(value, thefield, name, tag=None):
                 # This will only add instantiated values, and
@@ -198,14 +195,30 @@ class PluginBase(ABC):
                 if key not in kwargs:
                     kwargs[key] = default_value
 
+        def check_required(kwargs, tag=None):
+            missing = required_args - kwargs.keys()
+            if missing:
+                tag_phrase = f" with tag {tag}" if tag is not None else ""
+                raise WorkflowError(
+                    f"The following required arguments are missing for "
+                    f"plugin {self.name}{tag_phrase}: {', '.join(missing)}."
+                )
+
         # convert into the dataclass
         if self.support_tagged_values:
             tagged_settings = TaggedSettings()
             for tag, kwargs in kwargs_tagged.items():
+                check_required(kwargs, tag=tag)
                 tagged_settings.register_settings(dc(**kwargs), tag=tag)
-            tagged_settings.register_settings(dc(kwargs_all))
+            try:
+                check_required(kwargs)
+                tagged_settings.register_settings(dc(kwargs_all))
+            except WorkflowError:
+                # if untagged settings are not complete, do not register them
+                pass
             return tagged_settings
         else:
+            check_required(kwargs)
             return dc(**kwargs)
 
     def _get_cli_arg(self, field: Field) -> str:
