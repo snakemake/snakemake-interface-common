@@ -4,9 +4,10 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from abc import ABC, abstractmethod
-from dataclasses import fields
+from collections import defaultdict
+from dataclasses import field, fields
 from dataclasses import MISSING, Field, dataclass
-from typing import Type
+from typing import Dict, Optional, Type, Union
 import copy
 from snakemake_interface_common.exceptions import WorkflowError
 
@@ -27,9 +28,33 @@ class SettingsBase:
         """Yield all items (name, value) of the given group (as defined by the)
         optional category field in the metadata.
         """
-        for field in fields(self.__class__):
-            if field.metadata.get("subgroup") == category:
-                yield field.name, getattr(self, field.name)
+        for thefield in fields(self.__class__):
+            if thefield.metadata.get("subgroup") == category:
+                yield thefield.name, getattr(self, thefield.name)
+
+
+@dataclass
+class TaggedSettings:
+    _inner: Dict[str, SettingsBase] = field(default_factory=dict)
+    _plugin_name: str
+
+    def register_settings(self, settings: SettingsBase, tag: Optional[str] = None):
+        self._inner[tag] = settings
+
+    def get_settings(self, tag: Optional[str] = None) -> SettingsBase:
+        try:
+            return self._inner[tag]
+        except KeyError:
+            if tag is not None:
+                msg = (
+                    f"No settings available for the plugin {self.plugin_name} with "
+                    "tag {tag}."
+                )
+            else:
+                msg = (
+                    "No untagged settings available for the plugin {self.plugin_name}."
+                )
+            raise WorkflowError(msg)
 
 
 class PluginBase(ABC):
@@ -47,6 +72,10 @@ class PluginBase(ABC):
     @abstractmethod
     def settings_cls(self) -> Type[SettingsBase]:
         ...
+
+    @property
+    def support_tagged_values(self) -> bool:
+        return False
 
     def has_settings_cls(self):
         """Determine if a plugin defines custom executor settings"""
@@ -66,36 +95,47 @@ class PluginBase(ABC):
         # Assemble a new dataclass with the same fields, but with prefix
         # fields are stored at dc.__dataclass_fields__
         dc = copy.deepcopy(params)
-        for field in fields(params):
-            if "help" not in field.metadata:
+        for thefield in fields(params):
+            if "help" not in thefield.metadata:
                 raise InvalidPluginException(
                     "Fields of ExecutorSettings must have a help string."
                 )
-            if field.default is MISSING and field.default_factory is MISSING:
+            if thefield.default is MISSING and thefield.default_factory is MISSING:
                 raise InvalidPluginException(
                     "Fields of ExecutorSettings must have a default value."
                 )
 
             # Executor plugin dataclass members get prefixed with their
             # name when passed into snakemake args.
-            prefixed_name = self._get_prefixed_name(field)
+            prefixed_name = self._get_prefixed_name(thefield)
 
             # Since we use the helper function below, we
             # need a new dataclass that has these prefixes
-            del dc.__dataclass_fields__[field.name]
-            field.name = prefixed_name
-            dc.__dataclass_fields__[field.name] = field
+            del dc.__dataclass_fields__[thefield.name]
+            thefield.name = prefixed_name
+            dc.__dataclass_fields__[thefield.name] = thefield
 
         settings = argparser.add_argument_group(f"{self.name} executor settings")
 
-        for field in fields(dc):
-            args, kwargs = dataclass_field_to_argument_args(field)
+        for thefield in fields(dc):
+            args, kwargs = dataclass_field_to_argument_args(thefield)
 
-            if field.metadata.get("env_var"):
+            if thefield.metadata.get("env_var"):
                 kwargs["env_var"] = f"SNAKEMAKE_{prefixed_name.upper()}"
+
+            if self.support_tagged_values:
+                if thefield.metadata.get("nargs", None) is not None:
+                    raise ValueError(
+                        f"Plugin {self.name} supports tagged values but specifies args "
+                        "with multiple values in its settings class. This is not "
+                        "supported and a bug in the plugin. Please file an issue in "
+                        "the plugin repository."
+                    )
+                kwargs["nargs"] = "+"
+
             settings.add_argument(*args, **kwargs)
 
-    def get_settings(self, args) -> SettingsBase:
+    def get_settings(self, args) -> Union[SettingsBase, TaggedSettings]:
         """Return an instance of self.executor_settings with values from args.
 
         This helper function will select executor plugin namespaces arguments
@@ -108,33 +148,65 @@ class PluginBase(ABC):
         # We will parse the args from snakemake back into the dataclass
         dc = self.settings_cls
 
-        # Iterate through the args, and parse those in the namespace
-        kwargs = {}
-
-        # These fields will have the executor prefix
-        for field in fields(dc):
+        def get_name_and_value(field):
             # This is the actual field name without the prefix
             name = field.name.replace(f"{self.name}_", "", 1)
             value = getattr(args, field.name, None)
+            return name, value
 
-            if field.metadata.get("required") and value is None:
-                cli_arg = self._get_cli_arg(field)
+        kwargs_tagged = defaultdict(dict)
+        kwargs_all = dict()
+
+        # These fields will have the executor prefix
+        for thefield in fields(dc):
+            name, value = get_name_and_value(thefield)
+            cli_arg = self._get_cli_arg(thefield)
+
+            if thefield.metadata.get("required") and value is None:
+
                 raise WorkflowError(
                     f"Missing required argument {cli_arg} for executor {self.name}."
                 )
 
-            # This will only add instantiated values, and
-            # skip over dataclasses._MISSING_TYPE and similar
-            if isinstance(value, ArgTypes):
-                # If a parsing function is defined, we pass the arg value to it
-                # in order to get the correct type back.
-                parse_func = field.metadata.get("parse_func")
-                if parse_func is not None:
-                    value = parse_func(value)
-                kwargs[name] = value
+            def extract_values(value, thefield, name, tag=None):
+                # This will only add instantiated values, and
+                # skip over dataclasses._MISSING_TYPE and similar
+                if isinstance(value, ArgTypes):
+                    # If a parsing function is defined, we pass the arg value to it
+                    # in order to get the correct type back.
+                    parse_func = thefield.metadata.get("parse_func")
+                    if parse_func is not None:
+                        value = parse_func(value)
+                    if tag is None:
+                        kwargs_all[name] = value
+                    else:
+                        kwargs_tagged[tag][name] = value
 
-        # At this point we want to convert back to the original dataclass
-        return dc(**kwargs)
+            if self.support_tagged_values:
+                for item in value:
+                    splitted = item.split(":", 1)
+                    if len(splitted) == 2:  # is tagged
+                        tag, item = splitted
+                    elif len(splitted) == 1:  # not tagged
+                        tag = None
+                    extract_values(item, thefield, name, tag=tag)
+            else:
+                extract_values(item, thefield, name)
+
+        for kwargs in kwargs_tagged.values():
+            for key, default_value in kwargs_all.items():
+                if key not in kwargs:
+                    kwargs[key] = default_value
+
+        # convert into the dataclass
+        if self.support_tagged_values:
+            tagged_settings = TaggedSettings()
+            for tag, kwargs in kwargs_tagged.items():
+                tagged_settings.register_settings(dc(**kwargs), tag=tag)
+            tagged_settings.register_settings(dc(kwargs_all))
+            return tagged_settings
+        else:
+            return dc(**kwargs)
 
     def _get_cli_arg(self, field: Field) -> str:
         return self._get_prefixed_name(field).replace("_", "-")
