@@ -6,7 +6,7 @@ __license__ = "MIT"
 from abc import ABC, abstractmethod
 from collections import defaultdict
 from dataclasses import field, fields
-from dataclasses import MISSING, Field, dataclass
+from dataclasses import MISSING, dataclass
 from typing import Dict, Optional, Type, Union
 import copy
 from snakemake_interface_common.exceptions import WorkflowError
@@ -107,7 +107,7 @@ class PluginBase(ABC):
 
             # Executor plugin dataclass members get prefixed with their
             # name when passed into snakemake args.
-            prefixed_name = self._get_prefixed_name(thefield)
+            prefixed_name = self._get_prefixed_name(thefield.name)
 
             # Since we use the helper function below, we
             # need a new dataclass that has these prefixes
@@ -157,11 +157,12 @@ class PluginBase(ABC):
         kwargs_tagged = defaultdict(dict)
         kwargs_all = dict()
         required_args = set()
+        field_names = dict()
 
         # These fields will have the executor prefix
         for thefield in fields(dc):
             name, value = get_name_and_value(thefield)
-            cli_arg = self._get_cli_arg(thefield)
+            field_names[name] = thefield.name
             if thefield.metadata.get("required"):
                 required_args.add(name)
 
@@ -198,10 +199,12 @@ class PluginBase(ABC):
         def check_required(kwargs, tag=None):
             missing = required_args - kwargs.keys()
             if missing:
+
+                cli_args = [self._get_cli_arg(field_names[name]) for name in missing]
                 tag_phrase = f" with tag {tag}" if tag is not None else ""
                 raise WorkflowError(
                     f"The following required arguments are missing for "
-                    f"plugin {self.name}{tag_phrase}: {', '.join(missing)}."
+                    f"plugin {self.name}{tag_phrase}: {', '.join(cli_args)}."
                 )
 
         # convert into the dataclass
@@ -221,8 +224,8 @@ class PluginBase(ABC):
             check_required(kwargs)
             return dc(**kwargs)
 
-    def _get_cli_arg(self, field: Field) -> str:
-        return self._get_prefixed_name(field).replace("_", "-")
+    def _get_cli_arg(self, field_name: str) -> str:
+        return self._get_prefixed_name(field_name).replace("_", "-")
 
-    def _get_prefixed_name(self, field: Field) -> str:
-        return f"{self.cli_prefix}_{field.name}"
+    def _get_prefixed_name(self, field_name: str) -> str:
+        return f"{self.cli_prefix}_{field_name}"
