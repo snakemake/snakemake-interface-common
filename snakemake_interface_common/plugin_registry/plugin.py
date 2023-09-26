@@ -56,6 +56,9 @@ class TaggedSettings:
                 )
             raise WorkflowError(msg)
 
+    def __iter__(self):
+        return iter(self._inner.values())
+
 
 class PluginBase(ABC):
     @property
@@ -166,6 +169,9 @@ class PluginBase(ABC):
             if thefield.metadata.get("required"):
                 required_args.add(name)
 
+            if value is None:
+                continue
+
             def extract_values(value, thefield, name, tag=None):
                 # This will only add instantiated values, and
                 # skip over dataclasses._MISSING_TYPE and similar
@@ -209,12 +215,12 @@ class PluginBase(ABC):
 
         # convert into the dataclass
         if self.support_tagged_values:
-            tagged_settings = TaggedSettings()
+            tagged_settings = TaggedSettings(self.name)
             for tag, kwargs in kwargs_tagged.items():
                 check_required(kwargs, tag=tag)
                 tagged_settings.register_settings(dc(**kwargs), tag=tag)
             try:
-                check_required(kwargs)
+                check_required(kwargs_all)
                 tagged_settings.register_settings(dc(kwargs_all))
             except WorkflowError:
                 # if untagged settings are not complete, do not register them
