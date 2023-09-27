@@ -32,12 +32,12 @@ class PluginRegistryBase(ABC):
 
     def get_registered_plugins(self) -> List[str]:
         """Return a list of registered plugin names."""
-        return [name.replace("_", "-") for name in self.plugins.keys()]
+        return [name for name in self.plugins.keys()]
 
     def get_plugin(self, plugin_name):
         """Get a plugin by name."""
         try:
-            return self.plugins[plugin_name.replace("-", "_")]
+            return self.plugins[plugin_name]
         except KeyError:
             raise InvalidPluginException(
                 plugin_name,
@@ -80,7 +80,7 @@ class PluginRegistryBase(ABC):
         self.validate_plugin(name, plugin)
 
         # Derive the shortened name for future access
-        plugin_name = name.removeprefix(self.module_prefix)
+        plugin_name = name.removeprefix(self.module_prefix).replace("_", "-")
 
         self.plugins[plugin_name] = self.load_plugin(plugin_name, plugin)
 
