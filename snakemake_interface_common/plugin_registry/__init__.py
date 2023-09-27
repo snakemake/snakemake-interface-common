@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 import types
 import pkgutil
 import importlib
-from typing import Mapping
+from typing import List, Mapping
 
 from snakemake_interface_common.exceptions import InvalidPluginException
 from snakemake_interface_common.plugin_registry.plugin import PluginBase
@@ -29,6 +29,10 @@ class PluginRegistryBase(ABC):
             # init has been called before
             return
         self._collect_plugins()
+
+    def get_registered_plugins(self) -> List[str]:
+        """Return a list of registered plugin names."""
+        return [name.replace("_", "-") for name in self.plugins.keys()]
 
     def get_plugin(self, plugin_name):
         """Get a plugin by name."""
