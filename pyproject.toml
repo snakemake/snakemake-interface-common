@@ -21,12 +21,6 @@ pytest = "^7.0"
 omit = [".*", "*/site-packages/*"]
 
 [tool.coverage.report]
-# exclude CLI handling lines. They cannot be captured properly by coverage, but we have a testcase for them.
-exclude_lines = [
-  "yaml\\.dump\\(result, outfile\\)",
-  "process_yaml\\(sys.stdin, outfile=sys\\.stdout\\)",
-  "plac.call\\(cli\\)",
-]
 fail_under = 50
 
 [build-system]
