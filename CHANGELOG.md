@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.10.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.9.2...v1.10.0) (2023-09-27)
+
+
+### Features
+
+* add method to get registered plugins ([a630f9a](https://github.com/snakemake/snakemake-interface-common/commit/a630f9a1f1fd2a47c8b500523039a6261fc4dae4))
+
+
+### Bug Fixes
+
+* use hyphen for plugin names ([67797bd](https://github.com/snakemake/snakemake-interface-common/commit/67797bd6a85a589a08931abe37df6f0e45b1bae3))
+
 ## [1.9.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.9.1...v1.9.2) (2023-09-26)
 
 
