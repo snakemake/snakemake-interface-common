@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.9.1...v1.9.2) (2023-09-26)
+
+
+### Bug Fixes
+
+* various fixes ([5f0636f](https://github.com/snakemake/snakemake-interface-common/commit/5f0636f16148fc8f4078a53079be1ddc66f44d69))
+
 ## [1.9.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.9.0...v1.9.1) (2023-09-26)
 
 
