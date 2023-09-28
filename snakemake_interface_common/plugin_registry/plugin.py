@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 from collections import defaultdict
 from dataclasses import field, fields
 from dataclasses import MISSING, dataclass
-from typing import Dict, Optional, Type, Union
+from typing import Any, Dict, Optional, Sequence, Type, Union
 import copy
 from snakemake_interface_common.exceptions import WorkflowError
 
@@ -26,7 +26,7 @@ class SettingsBase:
 
     def get_items_by_category(self, category: str):
         """Yield all items (name, value) of the given group (as defined by the)
-        optional category field in the metadata.
+        optional subgroup field in the metadata.
         """
         for thefield in fields(self.__class__):
             if thefield.metadata.get("subgroup") == category:
@@ -42,6 +42,12 @@ class TaggedSettings:
 
     def get_settings(self, tag: Optional[str] = None) -> SettingsBase:
         return self._inner[tag]
+
+    def get_field_settings(self, field_name: str) -> Dict[str, Sequence[Any]]:
+        """Return a dictionary of tag -> value for the given field name."""
+        return {
+            tag: getattr(settings, field_name) for tag, settings in self._inner.items()
+        }
 
     def __iter__(self):
         return iter(self._inner.values())
@@ -167,6 +173,10 @@ class PluginBase(ABC):
                     # in order to get the correct type back.
                     parse_func = thefield.metadata.get("parse_func")
                     if parse_func is not None:
+                        if "unparse_func" not in thefield.metadata:
+                            raise InvalidPluginException(
+                                f"Field {name} has a parse_func but no unparse_func."
+                            )
                         value = parse_func(value)
                     if tag is None:
                         kwargs_all[name] = value
@@ -193,7 +203,7 @@ class PluginBase(ABC):
             missing = required_args - kwargs.keys()
             if missing:
 
-                cli_args = [self._get_cli_arg(field_names[name]) for name in missing]
+                cli_args = [self.get_cli_arg(field_names[name]) for name in missing]
                 tag_phrase = f" with tag {tag}" if tag is not None else ""
                 raise WorkflowError(
                     f"The following required arguments are missing for "
@@ -217,7 +227,7 @@ class PluginBase(ABC):
             check_required(kwargs)
             return dc(**kwargs)
 
-    def _get_cli_arg(self, field_name: str) -> str:
+    def get_cli_arg(self, field_name: str) -> str:
         return self._get_prefixed_name(field_name).replace("_", "-")
 
     def _get_prefixed_name(self, field_name: str) -> str:
