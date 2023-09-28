@@ -35,26 +35,13 @@ class SettingsBase:
 
 @dataclass
 class TaggedSettings:
-    _plugin_name: str
-    _inner: Dict[str, SettingsBase] = field(default_factory=dict)
+    _inner: Dict[str, SettingsBase] = field(default_factory=dict, init=False)
 
     def register_settings(self, settings: SettingsBase, tag: Optional[str] = None):
         self._inner[tag] = settings
 
     def get_settings(self, tag: Optional[str] = None) -> SettingsBase:
-        try:
-            return self._inner[tag]
-        except KeyError:
-            if tag is not None:
-                msg = (
-                    f"No settings available for the plugin {self.plugin_name} with "
-                    "tag {tag}."
-                )
-            else:
-                msg = (
-                    "No untagged settings available for the plugin {self.plugin_name}."
-                )
-            raise WorkflowError(msg)
+        return self._inner[tag]
 
     def __iter__(self):
         return iter(self._inner.values())
@@ -215,7 +202,7 @@ class PluginBase(ABC):
 
         # convert into the dataclass
         if self.support_tagged_values:
-            tagged_settings = TaggedSettings(self.name)
+            tagged_settings = TaggedSettings()
             for tag, kwargs in kwargs_tagged.items():
                 check_required(kwargs, tag=tag)
                 tagged_settings.register_settings(dc(**kwargs), tag=tag)

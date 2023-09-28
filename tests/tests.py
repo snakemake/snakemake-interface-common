@@ -65,7 +65,7 @@ def test_settings_enum():
 
 
 def test_tagged_settings():
-    ts = TaggedSettings("foo")
+    ts = TaggedSettings()
     ts.register_settings(object())
     ts.register_settings(object(), tag="foo")
     ts.get_settings(tag="foo")
