@@ -8,7 +8,6 @@ from collections import defaultdict
 from dataclasses import field, fields
 from dataclasses import MISSING, dataclass
 from typing import Any, Dict, Optional, Sequence, Type, Union
-import copy
 from snakemake_interface_common.exceptions import WorkflowError
 
 from snakemake_interface_common.exceptions import InvalidPluginException
@@ -88,9 +87,6 @@ class PluginBase(ABC):
         # Convenience handle
         params = self.settings_cls
 
-        # Assemble a new dataclass with the same fields, but with prefix
-        # fields are stored at dc.__dataclass_fields__
-        dc = copy.deepcopy(params)
         for thefield in fields(params):
             if "help" not in thefield.metadata:
                 raise InvalidPluginException(
@@ -101,23 +97,19 @@ class PluginBase(ABC):
                     "Fields of ExecutorSettings must have a default value."
                 )
 
-            # Executor plugin dataclass members get prefixed with their
-            # name when passed into snakemake args.
-            prefixed_name = self._get_prefixed_name(thefield.name)
-
-            # Since we use the helper function below, we
-            # need a new dataclass that has these prefixes
-            del dc.__dataclass_fields__[thefield.name]
-            thefield.name = prefixed_name
-            dc.__dataclass_fields__[thefield.name] = thefield
-
         settings = argparser.add_argument_group(f"{self.name} executor settings")
 
-        for thefield in fields(dc):
-            args, kwargs = dataclass_field_to_argument_args(thefield)
+        for thefield in fields(params):
+            prefixed_name = self._get_prefixed_name(thefield.name).replace("-", "_")
+            args, kwargs = dataclass_field_to_argument_args(
+                thefield, name=prefixed_name
+            )
 
             if thefield.metadata.get("env_var"):
                 kwargs["env_var"] = f"SNAKEMAKE_{prefixed_name.upper()}"
+
+            if "metavar" not in kwargs:
+                kwargs["metavar"] = "VALUE"
 
             if self.support_tagged_values:
                 if thefield.metadata.get("nargs", None) is not None:
@@ -128,6 +120,12 @@ class PluginBase(ABC):
                         "the plugin repository."
                     )
                 kwargs["nargs"] = "+"
+                kwargs["type"] = str
+                kwargs["help"] += (
+                    "Can be specified multiple times to set different "
+                    "values for different tags."
+                )
+                kwargs["metavar"] = f"[TAG::]{kwargs['metavar']}"
 
             settings.add_argument(*args, **kwargs)
 
@@ -146,9 +144,9 @@ class PluginBase(ABC):
 
         def get_name_and_value(field):
             # This is the actual field name without the prefix
-            name = field.name.replace(f"{self.name}_", "", 1)
-            value = getattr(args, field.name, None)
-            return name, value
+            prefixed_name = self._get_prefixed_name(thefield.name).replace("-", "_")
+            value = getattr(args, prefixed_name)
+            return field.name, value
 
         kwargs_tagged = defaultdict(dict)
         kwargs_all = dict()
@@ -178,19 +176,22 @@ class PluginBase(ABC):
                                 f"Field {name} has a parse_func but no unparse_func."
                             )
                         value = parse_func(value)
+                    elif "type" in thefield.metadata:
+                        value = thefield.metadata["type"](value)
                     if tag is None:
                         kwargs_all[name] = value
                     else:
                         kwargs_tagged[tag][name] = value
 
             if self.support_tagged_values:
-                for item in value:
-                    splitted = item.split(":", 1)
-                    if len(splitted) == 2:  # is tagged
-                        tag, item = splitted
-                    elif len(splitted) == 1:  # not tagged
-                        tag = None
-                    extract_values(item, thefield, name, tag=tag)
+                if value != MISSING:
+                    for item in value:
+                        splitted = item.split("::", 1)
+                        if len(splitted) == 2:  # is tagged
+                            tag, item = splitted
+                        elif len(splitted) == 1:  # not tagged
+                            tag = None
+                        extract_values(item, thefield, name, tag=tag)
             else:
                 extract_values(item, thefield, name)
 
@@ -218,7 +219,7 @@ class PluginBase(ABC):
                 tagged_settings.register_settings(dc(**kwargs), tag=tag)
             try:
                 check_required(kwargs_all)
-                tagged_settings.register_settings(dc(kwargs_all))
+                tagged_settings.register_settings(dc(**kwargs_all))
             except WorkflowError:
                 # if untagged settings are not complete, do not register them
                 pass
@@ -228,7 +229,7 @@ class PluginBase(ABC):
             return dc(**kwargs)
 
     def get_cli_arg(self, field_name: str) -> str:
-        return self._get_prefixed_name(field_name).replace("_", "-")
+        return "--" + self._get_prefixed_name(field_name).replace("_", "-")
 
     def _get_prefixed_name(self, field_name: str) -> str:
         return f"{self.cli_prefix}_{field_name}"

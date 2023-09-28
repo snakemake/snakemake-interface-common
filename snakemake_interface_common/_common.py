@@ -16,6 +16,7 @@ NoneType = type(None)
 # merged and released
 def dataclass_field_to_argument_args(
     field: Field,
+    name: str,
 ) -> Tuple[List[str], Dict[str, Any]]:
     """Extract kwargs of ArgumentParser.add_argument from a dataclass field.
 
@@ -24,7 +25,7 @@ def dataclass_field_to_argument_args(
     from argparse_dataclass import _handle_bool_type
     from typing import Literal, Union, get_args, get_origin
 
-    args = field.metadata.get("args", [f"--{field.name.replace('_', '-')}"])
+    args = field.metadata.get("args", [f"--{name.replace('_', '-')}"])
     positional = not args[0].startswith("-")
     kwargs = {
         "type": field.metadata.get("type", field.type),
