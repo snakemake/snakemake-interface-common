@@ -225,8 +225,8 @@ class PluginBase(ABC):
                 pass
             return tagged_settings
         else:
-            check_required(kwargs)
-            return dc(**kwargs)
+            check_required(kwargs_all)
+            return dc(**kwargs_all)
 
     def get_cli_arg(self, field_name: str) -> str:
         return "--" + self._get_prefixed_name(field_name).replace("_", "-")
