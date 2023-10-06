@@ -193,7 +193,7 @@ class PluginBase(ABC):
                             tag = None
                         extract_values(item, thefield, name, tag=tag)
             else:
-                extract_values(item, thefield, name)
+                extract_values(value, thefield, name)
 
         for kwargs in kwargs_tagged.values():
             for key, default_value in kwargs_all.items():
@@ -225,8 +225,8 @@ class PluginBase(ABC):
                 pass
             return tagged_settings
         else:
-            check_required(kwargs)
-            return dc(**kwargs)
+            check_required(kwargs_all)
+            return dc(**kwargs_all)
 
     def get_cli_arg(self, field_name: str) -> str:
         return "--" + self._get_prefixed_name(field_name).replace("_", "-")
