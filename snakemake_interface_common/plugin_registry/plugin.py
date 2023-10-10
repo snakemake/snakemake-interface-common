@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 from collections import defaultdict
 from dataclasses import field, fields
 from dataclasses import MISSING, dataclass
-from typing import Any, Dict, Optional, Sequence, Type, Union
+from typing import Any, Dict, List, Optional, Sequence, Type, Union
 from snakemake_interface_common.exceptions import WorkflowError
 
 from snakemake_interface_common.exceptions import InvalidPluginException
@@ -39,8 +39,8 @@ class TaggedSettings:
     def register_settings(self, settings: SettingsBase, tag: Optional[str] = None):
         self._inner[tag] = settings
 
-    def get_settings(self, tag: Optional[str] = None) -> SettingsBase:
-        return self._inner[tag]
+    def get_settings(self, tag: Optional[str] = None) -> Optional[SettingsBase]:
+        return self._inner.get(tag)
 
     def get_field_settings(self, field_name: str) -> Dict[str, Sequence[Any]]:
         """Return a dictionary of tag -> value for the given field name."""
@@ -75,6 +75,23 @@ class PluginBase(ABC):
     def has_settings_cls(self):
         """Determine if a plugin defines custom executor settings"""
         return self.settings_cls is not None
+
+    def get_settings_info(self) -> List[Dict[str, Any]]:
+        return [
+            {
+                "name": thefield.name,
+                "cliarg": self.get_cli_arg(thefield.name),
+                "help": thefield.metadata["help"],
+                "required": thefield.metadata.get("required", False),
+                "default": thefield.default,
+                "type": thefield.metadata.get("type", None),
+                "choices": thefield.metadata.get("choices", None),
+                "nargs": thefield.metadata.get("nargs", None),
+                "env_var": thefield.metadata.get("env_var", None),
+                "metavar": thefield.metadata.get("metavar", None),
+            }
+            for thefield in fields(self.settings_cls)
+        ]
 
     def register_cli_args(self, argparser):
         """Add arguments derived from self.executor_settings to given
