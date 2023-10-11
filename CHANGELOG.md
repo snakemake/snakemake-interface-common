@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.11.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.10.0...v1.11.0) (2023-10-11)
+
+
+### Features
+
+* add functionality for converting settings into arguments ([48687f9](https://github.com/snakemake/snakemake-interface-common/commit/48687f99dc5de81679af99134a07e82926fe0393))
+
+
+### Bug Fixes
+
+* fix handling of plugin settings names ([8007ab4](https://github.com/snakemake/snakemake-interface-common/commit/8007ab46dfdc152630be42c8247aec093033af3c))
+* improved handling of tagged settings ([8653e82](https://github.com/snakemake/snakemake-interface-common/commit/8653e824b700247b212f433f8d4aa8d7ad0ecbb8))
+* kwargs undefined, likely needs to be kwargs_all ([#25](https://github.com/snakemake/snakemake-interface-common/issues/25)) ([372fb10](https://github.com/snakemake/snakemake-interface-common/commit/372fb106b7985297d8f0d765e690d4d7d2710127))
+
 ## [1.10.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.9.2...v1.10.0) (2023-09-27)
 
 
