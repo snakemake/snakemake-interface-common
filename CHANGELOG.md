@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.11.0...v1.12.0) (2023-10-11)
+
+
+### Features
+
+* add abstract method for returning example args in test suite ([e84b5cb](https://github.com/snakemake/snakemake-interface-common/commit/e84b5cb1a82c39bc1f004fd00854ee9e290ab40b))
+
 ## [1.11.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.10.0...v1.11.0) (2023-10-11)
 
 
