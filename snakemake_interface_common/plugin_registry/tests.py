@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 import configargparse
 
 from snakemake_interface_common.plugin_registry.plugin import (
@@ -28,6 +29,10 @@ class TestRegistryBase(ABC):
     def validate_settings(self, settings: SettingsBase, plugin: PluginBase):
         ...
 
+    @abstractmethod
+    def get_example_args(self) -> List[str]:
+        ...
+
     def test_registry_collect_plugins(self):
         registry = self.get_registry()
         assert (
@@ -52,7 +57,7 @@ class TestRegistryBase(ABC):
 
         parser = configargparse.ArgumentParser()
         registry.register_cli_args(parser)
-        args = parser.parse_args([])
+        args = parser.parse_args(self.get_example_args())
 
         plugin = registry.get_plugin(self.get_test_plugin_name())
         settings = plugin.get_settings(args)
