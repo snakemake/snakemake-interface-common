@@ -28,7 +28,7 @@ class PluginRegistryBase(ABC):
         if hasattr(self, "plugins"):
             # init has been called before
             return
-        self._collect_plugins()
+        self.collect_plugins()
 
     def get_registered_plugins(self) -> List[str]:
         """Return a list of registered plugin names."""
@@ -55,7 +55,7 @@ class PluginRegistryBase(ABC):
         for _, plugin in self.plugins.items():
             plugin.register_cli_args(argparser)
 
-    def _collect_plugins(self):
+    def collect_plugins(self):
         """Collect plugins and call _register_plugin for each."""
         self.plugins = dict()
 
