@@ -34,6 +34,10 @@ class PluginRegistryBase(ABC):
         """Return a list of registered plugin names."""
         return [name for name in self.plugins.keys()]
 
+    def is_installed(self, plugin_name: str) -> bool:
+        """Return True if the plugin is registered."""
+        return plugin_name in self.plugins
+
     def get_plugin(self, plugin_name):
         """Get a plugin by name."""
         try:
@@ -41,7 +45,7 @@ class PluginRegistryBase(ABC):
         except KeyError:
             raise InvalidPluginException(
                 plugin_name,
-                f"The package {self.module_prefix.replace('_', '-')}-{plugin_name} is "
+                f"The package {self.module_prefix.replace('_', '-')}{plugin_name} is "
                 "not installed.",
             )
 
