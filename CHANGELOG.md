@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.13.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.12.0...v1.13.0) (2023-10-13)
+
+
+### Features
+
+* add is_installed for checking whether a plugin is installed ([cf6f3ab](https://github.com/snakemake/snakemake-interface-common/commit/cf6f3ab5b2104289792228fbb671ffeffaffa31e))
+* make collect_plugins public ([ca77b28](https://github.com/snakemake/snakemake-interface-common/commit/ca77b28e88344e010941e3b48090c39462896b6d))
+
 ## [1.12.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.11.0...v1.12.0) (2023-10-11)
 
 
