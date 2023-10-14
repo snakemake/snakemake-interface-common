@@ -60,11 +60,6 @@ class PluginBase(ABC):
 
     @property
     @abstractmethod
-    def package_name(self) -> str:
-        ...
-
-    @property
-    @abstractmethod
     def cli_prefix(self) -> str:
         ...
 

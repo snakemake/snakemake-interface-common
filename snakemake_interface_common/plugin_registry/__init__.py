@@ -38,7 +38,7 @@ class PluginRegistryBase(ABC):
         """Return True if the plugin is registered."""
         return plugin_name in self.plugins
 
-    def get_plugin(self, plugin_name):
+    def get_plugin(self, plugin_name: str) -> PluginBase:
         """Get a plugin by name."""
         try:
             return self.plugins[plugin_name]
@@ -48,6 +48,10 @@ class PluginRegistryBase(ABC):
                 f"The package {self.module_prefix.replace('_', '-')}{plugin_name} is "
                 "not installed.",
             )
+    
+    def get_plugin_package_name(self, plugin_name: str) -> str:
+        """Get the package name of a plugin by name."""
+        return f"{self.module_prefix.replace('_', '-')}{plugin_name}"
 
     def register_cli_args(self, argparser):
         """Add arguments derived from self.executor_settings to given
