@@ -48,7 +48,7 @@ class PluginRegistryBase(ABC):
                 f"The package {self.module_prefix.replace('_', '-')}{plugin_name} is "
                 "not installed.",
             )
-    
+
     def get_plugin_package_name(self, plugin_name: str) -> str:
         """Get the package name of a plugin by name."""
         return f"{self.module_prefix.replace('_', '-')}{plugin_name}"
