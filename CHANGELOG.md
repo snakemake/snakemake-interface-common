@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.14.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.13.0...v1.14.0) (2023-10-14)
+
+
+### Features
+
+* add method get_plugin_package_name ([db6ae92](https://github.com/snakemake/snakemake-interface-common/commit/db6ae92f62cc9cbfe8f2bdbb25a6c78dd63824d4))
+* add package_name property ([6491cd2](https://github.com/snakemake/snakemake-interface-common/commit/6491cd2266853fe263569b9a931690fc2e0513af))
+
 ## [1.13.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.12.0...v1.13.0) (2023-10-13)
 
 
