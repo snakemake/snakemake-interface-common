@@ -123,7 +123,7 @@ class PluginBase(ABC):
             )
 
             if thefield.metadata.get("env_var"):
-                kwargs["env_var"] = f"SNAKEMAKE_{prefixed_name.upper()}"
+                kwargs["env_var"] = self.get_envvar(thefield.name)
 
             if "metavar" not in kwargs:
                 kwargs["metavar"] = "VALUE"
@@ -145,6 +145,21 @@ class PluginBase(ABC):
                 kwargs["metavar"] = f"[TAG::]{kwargs['metavar']}"
 
             settings.add_argument(*args, **kwargs)
+
+    def validate_settings(self, settings):
+        # rewrite for settings
+        missing = [
+            thefield.name
+            for thefield in fields(settings)
+            if thefield.metadata.get("required")
+            and getattr(settings, thefield.name) is None
+        ]
+        if missing:
+            cli_args = [self.get_cli_arg(name) for name in missing]
+            raise WorkflowError(
+                f"The following required arguments are missing for "
+                f"plugin {self.name}: {', '.join(cli_args)}."
+            )
 
     def get_settings(self, args) -> Union[SettingsBase, TaggedSettings]:
         """Return an instance of self.executor_settings with values from args.
@@ -217,33 +232,24 @@ class PluginBase(ABC):
                 if key not in kwargs:
                     kwargs[key] = default_value
 
-        def check_required(kwargs, tag=None):
-            missing = required_args - kwargs.keys()
-            if missing:
-
-                cli_args = [self.get_cli_arg(field_names[name]) for name in missing]
-                tag_phrase = f" with tag {tag}" if tag is not None else ""
-                raise WorkflowError(
-                    f"The following required arguments are missing for "
-                    f"plugin {self.name}{tag_phrase}: {', '.join(cli_args)}."
-                )
-
         # convert into the dataclass
         if self.support_tagged_values:
             tagged_settings = TaggedSettings()
             for tag, kwargs in kwargs_tagged.items():
-                check_required(kwargs, tag=tag)
-                tagged_settings.register_settings(dc(**kwargs), tag=tag)
-            try:
-                check_required(kwargs_all)
-                tagged_settings.register_settings(dc(**kwargs_all))
-            except WorkflowError:
-                # if untagged settings are not complete, do not register them
-                pass
+                settings = dc(**kwargs)
+                tagged_settings.register_settings(settings, tag=tag)
+
+            # untagged settings
+            settings = dc(**kwargs_all)
+            tagged_settings.register_settings(settings)
             return tagged_settings
         else:
-            check_required(kwargs_all)
-            return dc(**kwargs_all)
+            settings = dc(**kwargs_all)
+            return dc(settings)
+
+    def get_envvar(self, field_name: str) -> str:
+        prefixed_name = self._get_prefixed_name(field_name).upper().replace("-", "_")
+        return f"SNAKEMAKE_{prefixed_name}"
 
     def get_cli_arg(self, field_name: str) -> str:
         return "--" + self._get_prefixed_name(field_name).replace("_", "-")
