@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.14.0...v1.14.1) (2023-10-25)
+
+
+### Bug Fixes
+
+* improved settings and envvar handling ([0c6eb7d](https://github.com/snakemake/snakemake-interface-common/commit/0c6eb7dfd04776514022471db6ababa43a495122))
+
 ## [1.14.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.13.0...v1.14.0) (2023-10-14)
 
 
