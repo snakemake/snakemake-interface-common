@@ -245,7 +245,7 @@ class PluginBase(ABC):
             return tagged_settings
         else:
             settings = dc(**kwargs_all)
-            return dc(settings)
+            return settings
 
     def get_envvar(self, field_name: str) -> str:
         prefixed_name = self._get_prefixed_name(field_name).upper().replace("-", "_")
