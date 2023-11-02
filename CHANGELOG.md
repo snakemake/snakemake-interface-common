@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.14.1...v1.14.2) (2023-11-02)
+
+
+### Bug Fixes
+
+* fix bug in settings retrieval in the non-tagged case ([5b0ab9b](https://github.com/snakemake/snakemake-interface-common/commit/5b0ab9b3e6e8484288bb4a3fa59ccaaf0b57db91))
+
 ## [1.14.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.14.0...v1.14.1) (2023-10-25)
 
 
