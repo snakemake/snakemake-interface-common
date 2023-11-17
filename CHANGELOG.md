@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.3](https://github.com/snakemake/snakemake-interface-common/compare/v1.14.2...v1.14.3) (2023-11-17)
+
+
+### Bug Fixes
+
+* return empty TaggedSettings if plugin does not provide any settings but is taggable. ([ec6cc70](https://github.com/snakemake/snakemake-interface-common/commit/ec6cc709f85b56819e9a79f8f4c0c320433b4f03))
+
 ## [1.14.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.14.1...v1.14.2) (2023-11-02)
 
 
