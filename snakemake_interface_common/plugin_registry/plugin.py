@@ -169,7 +169,10 @@ class PluginBase(ABC):
         custom argument parser -> back into dataclass -> snakemake.
         """
         if not self.has_settings_cls():
-            return SettingsBase()
+            if self.support_tagged_values:
+                return TaggedSettings()
+            else:
+                return SettingsBase()
 
         # We will parse the args from snakemake back into the dataclass
         dc = self.settings_cls
