@@ -77,21 +77,24 @@ class PluginBase(ABC):
         return self.settings_cls is not None
 
     def get_settings_info(self) -> List[Dict[str, Any]]:
-        return [
-            {
-                "name": thefield.name,
-                "cliarg": self.get_cli_arg(thefield.name),
-                "help": thefield.metadata["help"],
-                "required": thefield.metadata.get("required", False),
-                "default": thefield.default,
-                "type": thefield.metadata.get("type", None),
-                "choices": thefield.metadata.get("choices", None),
-                "nargs": thefield.metadata.get("nargs", None),
-                "env_var": thefield.metadata.get("env_var", None),
-                "metavar": thefield.metadata.get("metavar", None),
-            }
-            for thefield in fields(self.settings_cls)
-        ]
+        if self.settings_cls is None:
+            return []
+        else:
+            return [
+                {
+                    "name": thefield.name,
+                    "cliarg": self.get_cli_arg(thefield.name),
+                    "help": thefield.metadata["help"],
+                    "required": thefield.metadata.get("required", False),
+                    "default": thefield.default,
+                    "type": thefield.metadata.get("type", None),
+                    "choices": thefield.metadata.get("choices", None),
+                    "nargs": thefield.metadata.get("nargs", None),
+                    "env_var": thefield.metadata.get("env_var", None),
+                    "metavar": thefield.metadata.get("metavar", None),
+                }
+                for thefield in fields(self.settings_cls)
+            ]
 
     def register_cli_args(self, argparser):
         """Add arguments derived from self.executor_settings to given
