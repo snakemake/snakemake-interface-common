@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.4](https://github.com/snakemake/snakemake-interface-common/compare/v1.14.3...v1.14.4) (2023-11-27)
+
+
+### Bug Fixes
+
+* return empty settings info if plugin does not have a settings class ([b59fbff](https://github.com/snakemake/snakemake-interface-common/commit/b59fbffc8555bd93bf0f616243a6423c763ee437))
+
 ## [1.14.3](https://github.com/snakemake/snakemake-interface-common/compare/v1.14.2...v1.14.3) (2023-11-17)
 
 
