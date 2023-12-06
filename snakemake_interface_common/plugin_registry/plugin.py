@@ -90,7 +90,9 @@ class PluginBase(ABC):
                     "type": thefield.metadata.get("type", None),
                     "choices": thefield.metadata.get("choices", None),
                     "nargs": thefield.metadata.get("nargs", None),
-                    "env_var": thefield.metadata.get("env_var", None),
+                    "env_var": self.get_envvar(thefield.name)
+                    if thefield.metadata.get("env_var", None)
+                    else None,
                     "metavar": thefield.metadata.get("metavar", None),
                 }
                 for thefield in fields(self.settings_cls)
