@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.5](https://github.com/snakemake/snakemake-interface-common/compare/v1.14.4...v1.14.5) (2023-12-06)
+
+
+### Bug Fixes
+
+* return envvar name in settings info ([68627b2](https://github.com/snakemake/snakemake-interface-common/commit/68627b2cce65d5b57b142cc7f3aebb9fdc7f0c42))
+
 ## [1.14.4](https://github.com/snakemake/snakemake-interface-common/compare/v1.14.3...v1.14.4) (2023-11-27)
 
 
