@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from enum import Enum
-from typing import FrozenSet, List, Set, TypeVar, Union
+from typing import FrozenSet, List, Set, TypeVar
 
 TSettingsEnumBase = TypeVar("TSettingsEnumBase", bound="SettingsEnumBase")
 
@@ -24,9 +24,7 @@ class SettingsEnumBase(Enum):
         return cls._parse_choices_into(choices, set)
 
     @classmethod
-    def _parse_choices_into(
-        cls, choices: str, container
-    ) -> List[TSettingsEnumBase]:
+    def _parse_choices_into(cls, choices: str, container) -> List[TSettingsEnumBase]:
         return container(cls.parse_choice(choice) for choice in choices)
 
     @classmethod
