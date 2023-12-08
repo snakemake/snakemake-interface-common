@@ -16,16 +16,16 @@ class SettingsEnumBase(Enum):
         return frozenset(item for item in cls if item not in skip)
 
     @classmethod
-    def parse_choices_list(self, choices: List[str]) -> List[TSettingsEnumBase]:
-        return self._parse_choices_into(choices, list)
+    def parse_choices_list(cls, choices: List[str]) -> List[TSettingsEnumBase]:
+        return cls._parse_choices_into(choices, list)
 
     @classmethod
-    def parse_choices_set(self, choices: List[str]) -> Set[TSettingsEnumBase]:
-        return self._parse_choices_into(choices, set)
+    def parse_choices_set(cls, choices: List[str]) -> Set[TSettingsEnumBase]:
+        return cls._parse_choices_into(choices, set)
 
     @classmethod
     def _parse_choices_into(
-        cls, choices: str, container: Union[List, Set]
+        cls, choices: str, container
     ) -> List[TSettingsEnumBase]:
         return container(cls.parse_choice(choice) for choice in choices)
 
