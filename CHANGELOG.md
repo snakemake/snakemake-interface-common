@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.15.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.14.5...v1.15.0) (2023-12-08)
+
+
+### Features
+
+* allow skipping of items when calling all method of SettingsEnumBase. ([01776e8](https://github.com/snakemake/snakemake-interface-common/commit/01776e8436249b93f9acc483e1adbcb279084166))
+
+
+### Bug Fixes
+
+* fix lints ([3d83d91](https://github.com/snakemake/snakemake-interface-common/commit/3d83d9187690f330dd4f050b311e215714ffd3fb))
+
 ## [1.14.5](https://github.com/snakemake/snakemake-interface-common/compare/v1.14.4...v1.14.5) (2023-12-06)
 
 
