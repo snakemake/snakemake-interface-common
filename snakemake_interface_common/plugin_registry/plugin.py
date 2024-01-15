@@ -133,7 +133,10 @@ class PluginBase(ABC):
             if "metavar" not in kwargs:
                 kwargs["metavar"] = "VALUE"
 
-            if self.support_tagged_values:
+            if thefield.type == bool:
+                # boolean args may not have a metavar
+                del kwargs["metavar"]
+            elif self.support_tagged_values:
                 if thefield.metadata.get("nargs", None) is not None:
                     raise ValueError(
                         f"Plugin {self.name} supports tagged values but specifies args "
@@ -148,10 +151,6 @@ class PluginBase(ABC):
                     "values for different tags."
                 )
                 kwargs["metavar"] = f"[TAG::]{kwargs['metavar']}"
-
-            if kwargs["type"] == bool:
-                # boolean args may not have a metavar
-                del kwargs["metavar"]
 
             settings.add_argument(*args, **kwargs)
 
