@@ -149,6 +149,10 @@ class PluginBase(ABC):
                 )
                 kwargs["metavar"] = f"[TAG::]{kwargs['metavar']}"
 
+            if kwargs["type"] == bool:
+                # boolean args may not have a metavar
+                del kwargs["metavar"]
+
             settings.add_argument(*args, **kwargs)
 
     def validate_settings(self, settings):
