@@ -27,8 +27,10 @@ class WorkflowError(Exception):
             return "{}{}:\n{}".format(
                 arg.__class__.__name__, spec, textwrap.indent(str(arg), "    ")
             )
+        elif isinstance(arg, ExceptionGroup):
+            return "\n".join(set(self.format_arg(e) for e in arg.exceptions))
         else:
-            return f"{arg.__class__.__name__}: {arg}"
+            return f"{e.__class__.__name__}: {e}"
 
     def __init__(
         self,
