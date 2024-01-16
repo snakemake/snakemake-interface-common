@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.15.0...v1.15.1) (2024-01-15)
+
+
+### Bug Fixes
+
+* do not set metavar in case of boolean CLI args (aka flags) ([#35](https://github.com/snakemake/snakemake-interface-common/issues/35)) ([c0fb61a](https://github.com/snakemake/snakemake-interface-common/commit/c0fb61a7f3b74b5778e8da3d612d41afcc280a5c))
+
 ## [1.15.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.14.5...v1.15.0) (2023-12-08)
 
 
