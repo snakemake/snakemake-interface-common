@@ -40,7 +40,11 @@ class TaggedSettings:
         self._inner[tag] = settings
 
     def get_settings(self, tag: Optional[str] = None) -> Optional[SettingsBase]:
-        return self._inner.get(tag)
+        settings = self._inner.get(tag)
+        if tag is not None and settings is None:
+            # no settings specifically for this tag, just use untagged defaults
+            settings = self._inner.get(None)
+        return settings
 
     def get_field_settings(self, field_name: str) -> Dict[str, Sequence[Any]]:
         """Return a dictionary of tag -> value for the given field name."""
