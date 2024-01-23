@@ -155,15 +155,23 @@ class PluginBase(ABC):
             settings.add_argument(*args, **kwargs)
 
     def validate_settings(self, settings):
+        def get_description(thefield):
+            envvar = (
+                f" (or environment variable {self.get_envvar(thefield.name)})"
+                if thefield.metadata.get("env_var", None)
+                else ""
+            )
+            return f"{self.get_cli_arg(thefield.name)}{envvar}"
+
         # rewrite for settings
         missing = [
-            thefield.name
+            thefield
             for thefield in fields(settings)
             if thefield.metadata.get("required")
             and getattr(settings, thefield.name) is None
         ]
         if missing:
-            cli_args = [self.get_cli_arg(name) for name in missing]
+            cli_args = [get_description(thefield) for thefield in missing]
             raise WorkflowError(
                 f"The following required arguments are missing for "
                 f"plugin {self.name}: {', '.join(cli_args)}."
