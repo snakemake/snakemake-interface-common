@@ -28,7 +28,9 @@ class WorkflowError(Exception):
             return "{}{}:\n{}".format(
                 arg.__class__.__name__, spec, textwrap.indent(str(arg), "    ")
             )
-        elif sys.version_info >= (3, 11) and isinstance(arg, ExceptionGroup): # noqa: F821
+        elif sys.version_info >= (3, 11) and isinstance(
+            arg, ExceptionGroup
+        ):  # noqa: F821
             return "\n".join(self.format_arg(exc) for exc in arg.exceptions)
         else:
             return f"{arg.__class__.__name__}: {arg}"
