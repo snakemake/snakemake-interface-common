@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.3](https://github.com/snakemake/snakemake-interface-common/compare/v1.15.2...v1.15.3) (2024-02-02)
+
+
+### Bug Fixes
+
+* print details of exception group errors ([6f8e289](https://github.com/snakemake/snakemake-interface-common/commit/6f8e2890a68198c67b5cbf2a17befce65931c6dd))
+
 ## [1.15.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.15.1...v1.15.2) (2024-01-23)
 
 
