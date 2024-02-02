@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.15.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.15.1...v1.15.2) (2024-01-23)
+
+
+### Bug Fixes
+
+* better error message for missing plugin args ([d233f4f](https://github.com/snakemake/snakemake-interface-common/commit/d233f4fadd91a74829b45163f72a84debe9d77f8))
+* properly handle tagged storage if only default settings are provided ([f59aa18](https://github.com/snakemake/snakemake-interface-common/commit/f59aa18c2dee0b16700bfb44a49ba33477e222fa))
+
 ## [1.15.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.15.0...v1.15.1) (2024-01-15)
 
 
