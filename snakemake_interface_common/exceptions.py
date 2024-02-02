@@ -4,6 +4,7 @@ __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
 from pathlib import Path
+import sys
 import textwrap
 from typing import Optional
 
@@ -27,7 +28,7 @@ class WorkflowError(Exception):
             return "{}{}:\n{}".format(
                 arg.__class__.__name__, spec, textwrap.indent(str(arg), "    ")
             )
-        elif isinstance(arg, ExceptionGroup):
+        elif sys.version_info >= (3, 11) and isinstance(arg, ExceptionGroup): # noqa: F821
             return "\n".join(self.format_arg(exc) for exc in arg.exceptions)
         else:
             return f"{arg.__class__.__name__}: {arg}"
