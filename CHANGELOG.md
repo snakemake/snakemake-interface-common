@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.4](https://github.com/snakemake/snakemake-interface-common/compare/v1.15.3...v1.15.4) (2024-02-14)
+
+
+### Bug Fixes
+
+* do not try to consider bool settings as tagged. This fixes the error TypeError: 'bool' object is not iterable occurring with some plugins. ([49e47ac](https://github.com/snakemake/snakemake-interface-common/commit/49e47ac4352bde97816d08d88f0f9c66fdc64c49))
+
 ## [1.15.3](https://github.com/snakemake/snakemake-interface-common/compare/v1.15.2...v1.15.3) (2024-02-02)
 
 
