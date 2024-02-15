@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.15.4...v1.16.0) (2024-02-15)
+
+
+### Features
+
+* add path to valid cli arg types ([3856d49](https://github.com/snakemake/snakemake-interface-common/commit/3856d49d49c15ed3dec35f1e9e385dd5d20a1587))
+
 ## [1.15.4](https://github.com/snakemake/snakemake-interface-common/compare/v1.15.3...v1.15.4) (2024-02-14)
 
 
