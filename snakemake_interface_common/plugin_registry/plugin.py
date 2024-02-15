@@ -7,6 +7,7 @@ from abc import ABC, abstractmethod
 from collections import defaultdict
 from dataclasses import field, fields
 from dataclasses import MISSING, dataclass
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Type, Union
 from snakemake_interface_common.exceptions import WorkflowError
 
@@ -16,7 +17,7 @@ from snakemake_interface_common._common import (
 )
 
 # Valid Argument types (to distinguish from empty dataclasses)
-ArgTypes = (str, int, float, bool, list)
+ArgTypes = (str, int, float, bool, list, Path)
 
 
 @dataclass
