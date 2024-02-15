@@ -239,7 +239,8 @@ class PluginBase(ABC):
                     else:
                         kwargs_tagged[tag][name] = value
 
-            if self.support_tagged_values:
+            # for now, bool values cannot be tagged and thereby apply to all instances
+            if self.support_tagged_values and thefield.type != bool:
                 if value != MISSING:
                     for item in value:
                         splitted = item.split("::", 1)
