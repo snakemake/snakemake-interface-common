@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.16.0...v1.17.0) (2024-02-19)
+
+
+### Features
+
+* add lutime and lchmod to utils ([6fa0cb5](https://github.com/snakemake/snakemake-interface-common/commit/6fa0cb5693109f5b9d466d843b84a0ef035d27ec))
+
 ## [1.16.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.15.4...v1.16.0) (2024-02-15)
 
 
