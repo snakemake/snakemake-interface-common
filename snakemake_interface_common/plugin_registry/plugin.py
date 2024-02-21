@@ -9,6 +9,7 @@ from dataclasses import field, fields
 from dataclasses import MISSING, dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Type, Union
+import typing
 from snakemake_interface_common.exceptions import WorkflowError
 
 from snakemake_interface_common.exceptions import InvalidPluginException
@@ -233,7 +234,11 @@ class PluginBase(ABC):
                             )
                         value = parse_func(value)
                     elif "type" in thefield.metadata:
-                        value = thefield.metadata["type"](value)
+                        value = self._parse_type(
+                            thefield, value, thefield.metadata["type"]
+                        )
+                    elif thefield.type != str:
+                        value = self._parse_type(thefield, value, thefield.type)
                     if tag is None:
                         kwargs_all[name] = value
                     else:
@@ -281,3 +286,30 @@ class PluginBase(ABC):
 
     def _get_prefixed_name(self, field_name: str) -> str:
         return f"{self.cli_prefix}_{field_name}"
+
+    def _parse_type(self, thefield, value, thetype):
+        def apply_type(value, thetype):
+            try:
+                return thetype(value)
+            except Exception as e:
+                raise WorkflowError(
+                    f"Failed to interpret value {value} for field {thefield.name} of "
+                    f"plugin {self.name} as {thetype}. "
+                    "Either there is a bug in the plugin settings "
+                    "definition or an invalid value has been passed.",
+                    e,
+                )
+
+        if typing.get_origin(thetype) == typing.Union:
+            args = typing.get_args(thetype)
+            if len(args) == 2 and args[1] == None.__class__:  # noqa: E711
+                # Optional type
+                return apply_type(value, args[0])
+            else:
+                raise InvalidPluginException(
+                    self.name,
+                    "Plugin setting types may not use typing.Union. Only plain types "
+                    "and typing.Optional are allowed.",
+                )
+        else:
+            return apply_type(value, thetype)
