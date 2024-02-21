@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.17.0...v1.17.1) (2024-02-21)
+
+
+### Bug Fixes
+
+* fix parsing and error handling for non-str plugin settings ([#43](https://github.com/snakemake/snakemake-interface-common/issues/43)) ([02084c2](https://github.com/snakemake/snakemake-interface-common/commit/02084c2e29a9c1d131eee1cef281973a7a405ec0))
+
 ## [1.17.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.16.0...v1.17.0) (2024-02-19)
 
 
