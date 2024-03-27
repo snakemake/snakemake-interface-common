@@ -118,10 +118,12 @@ class PluginBase(ABC):
         for thefield in fields(params):
             if "help" not in thefield.metadata:
                 raise InvalidPluginException(
+                    self.name,
                     "Fields of ExecutorSettings must have a help string."
                 )
             if thefield.default is MISSING and thefield.default_factory is MISSING:
                 raise InvalidPluginException(
+                    self.name,
                     "Fields of ExecutorSettings must have a default value."
                 )
 
@@ -230,6 +232,7 @@ class PluginBase(ABC):
                     if parse_func is not None:
                         if "unparse_func" not in thefield.metadata:
                             raise InvalidPluginException(
+                                self.name,
                                 f"Field {name} has a parse_func but no unparse_func."
                             )
                         value = parse_func(value)
