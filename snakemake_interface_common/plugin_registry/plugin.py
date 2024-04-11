@@ -86,13 +86,20 @@ class PluginBase(ABC):
         if self.settings_cls is None:
             return []
         else:
+
+            def fmt_default(thefield):
+                if thefield.default is not MISSING:
+                    return thefield.default
+                else:
+                    return None
+
             return [
                 {
                     "name": thefield.name,
                     "cliarg": self.get_cli_arg(thefield.name),
                     "help": thefield.metadata["help"],
                     "required": thefield.metadata.get("required", False),
-                    "default": thefield.default,
+                    "default": fmt_default(thefield),
                     "type": thefield.metadata.get("type", None),
                     "choices": thefield.metadata.get("choices", None),
                     "nargs": thefield.metadata.get("nargs", None),
