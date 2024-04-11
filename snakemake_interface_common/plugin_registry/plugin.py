@@ -125,11 +125,11 @@ class PluginBase(ABC):
         for thefield in fields(params):
             if "help" not in thefield.metadata:
                 raise InvalidPluginException(
-                    "Fields of ExecutorSettings must have a help string."
+                    self.name, "Fields of ExecutorSettings must have a help string."
                 )
             if thefield.default is MISSING and thefield.default_factory is MISSING:
                 raise InvalidPluginException(
-                    "Fields of ExecutorSettings must have a default value."
+                    self.name, "Fields of ExecutorSettings must have a default value."
                 )
 
         settings = argparser.add_argument_group(f"{self.name} executor settings")
@@ -237,7 +237,8 @@ class PluginBase(ABC):
                     if parse_func is not None:
                         if "unparse_func" not in thefield.metadata:
                             raise InvalidPluginException(
-                                f"Field {name} has a parse_func but no unparse_func."
+                                self.name,
+                                f"Field {name} has a parse_func but no unparse_func.",
                             )
                         value = parse_func(value)
                     elif "type" in thefield.metadata:
