@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.17.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.17.1...v1.17.2) (2024-04-11)
+
+
+### Bug Fixes
+
+* Add missing name field to InvalidPluginExceptions ([#46](https://github.com/snakemake/snakemake-interface-common/issues/46)) ([4f26d75](https://github.com/snakemake/snakemake-interface-common/commit/4f26d75da09bbad230a1e0f1b0c18fa5db90ca94))
+* properly handle missing defaults in plugin settings ([f631c34](https://github.com/snakemake/snakemake-interface-common/commit/f631c34137e2bdd0cb5bfd4aaacd562804e5e15c))
+
 ## [1.17.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.17.0...v1.17.1) (2024-02-21)
 
 
