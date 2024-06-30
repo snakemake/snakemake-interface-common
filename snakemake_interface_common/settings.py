@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from enum import Enum
-from typing import FrozenSet, List, Set, TypeVar
+from typing import FrozenSet, List, Set, Tuple, TypeVar
 
 TSettingsEnumBase = TypeVar("TSettingsEnumBase", bound="SettingsEnumBase")
 
@@ -8,12 +8,12 @@ TSettingsEnumBase = TypeVar("TSettingsEnumBase", bound="SettingsEnumBase")
 class SettingsEnumBase(Enum):
     @classmethod
     def choices(cls) -> List[str]:
-        return sorted(item.item_to_choice() for item in cls)
+        return list(item.item_to_choice() for item in cls)
 
     @classmethod
-    def all(cls) -> FrozenSet[TSettingsEnumBase]:
+    def all(cls) -> Tuple[TSettingsEnumBase]:
         skip = cls.skip_for_all()
-        return frozenset(item for item in cls if item not in skip)
+        return tuple(item for item in cls if item not in skip)
 
     @classmethod
     def parse_choices_list(cls, choices: List[str]) -> List[TSettingsEnumBase]:
