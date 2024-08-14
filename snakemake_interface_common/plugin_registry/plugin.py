@@ -160,7 +160,7 @@ class PluginBase(ABC):
                 kwargs["nargs"] = "+"
                 kwargs["type"] = str
                 kwargs["help"] += (
-                    "Can be specified multiple times to set different "
+                    " Can be specified multiple times to set different "
                     "values for different tags."
                 )
                 kwargs["metavar"] = f"[TAG::]{kwargs['metavar']}"
