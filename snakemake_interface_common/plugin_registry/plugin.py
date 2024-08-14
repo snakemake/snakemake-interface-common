@@ -165,6 +165,9 @@ class PluginBase(ABC):
                 )
                 kwargs["metavar"] = f"[TAG::]{kwargs['metavar']}"
 
+            if thefield.metadata.get("parse_func"):
+                kwargs["type"] = str
+
             settings.add_argument(*args, **kwargs)
 
     def validate_settings(self, settings):
