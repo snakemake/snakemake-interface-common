@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.17.3](https://github.com/snakemake/snakemake-interface-common/compare/v1.17.2...v1.17.3) (2024-08-14)
+
+
+### Bug Fixes
+
+* set CLI arg type to str if parse_func is provided ([#50](https://github.com/snakemake/snakemake-interface-common/issues/50)) ([aca9a5a](https://github.com/snakemake/snakemake-interface-common/commit/aca9a5ac3aa2837fcaecded588a1b6391dc2eeb1))
+
+
+### Documentation
+
+* insert space between original help message and suffix ([#48](https://github.com/snakemake/snakemake-interface-common/issues/48)) ([93e96ee](https://github.com/snakemake/snakemake-interface-common/commit/93e96eede3d66291e72ac3952a7c933f05b28e88))
+
 ## [1.17.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.17.1...v1.17.2) (2024-04-11)
 
 
