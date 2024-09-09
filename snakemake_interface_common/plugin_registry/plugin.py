@@ -89,6 +89,8 @@ class PluginBase(ABC):
 
             def fmt_default(thefield):
                 if thefield.default is not MISSING:
+                    if callable(thefield.default):
+                        return "<function>"
                     return thefield.default
                 else:
                     return None
