@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.17.4](https://github.com/snakemake/snakemake-interface-common/compare/v1.17.3...v1.17.4) (2024-10-04)
+
+
+### Bug Fixes
+
+* do not check for exactly one plugin in registry tests ([#54](https://github.com/snakemake/snakemake-interface-common/issues/54)) ([755e64e](https://github.com/snakemake/snakemake-interface-common/commit/755e64eb182ffa97f23f3b77566703b61c346dea))
+* return str placeholder in settings info if default value of setting is a callable ([#52](https://github.com/snakemake/snakemake-interface-common/issues/52)) ([0f26fe3](https://github.com/snakemake/snakemake-interface-common/commit/0f26fe3bbe9d72f909c19fd9b013bbb48b68c2f6))
+
 ## [1.17.3](https://github.com/snakemake/snakemake-interface-common/compare/v1.17.2...v1.17.3) (2024-08-14)
 
 
