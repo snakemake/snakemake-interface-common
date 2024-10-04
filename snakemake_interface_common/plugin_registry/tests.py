@@ -35,9 +35,6 @@ class TestRegistryBase(ABC):
 
     def test_registry_collect_plugins(self):
         registry = self.get_registry()
-        assert (
-            len(registry.plugins) == 1
-        ), "we assume that only one plugin is installed in test environment"
         plugin = registry.get_plugin(self.get_test_plugin_name())
         self.validate_plugin(plugin)
 

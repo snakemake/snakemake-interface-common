@@ -60,7 +60,7 @@ class PluginRegistryBase(ABC):
             plugin.register_cli_args(argparser)
 
     def collect_plugins(self):
-        """Collect plugins and call _register_plugin for each."""
+        """Collect plugins and call register_plugin for each."""
         self.plugins = dict()
 
         # Executor plugins are externally installed plugins named
