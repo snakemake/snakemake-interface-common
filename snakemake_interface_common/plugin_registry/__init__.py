@@ -120,8 +120,7 @@ class PluginRegistryBase(ABC):
 
     @property
     @abstractmethod
-    def module_prefix(self) -> str:
-        ...
+    def module_prefix(self) -> str: ...
 
     @abstractmethod
     def load_plugin(self, name: str, module: types.ModuleType) -> PluginBase:
@@ -129,5 +128,4 @@ class PluginRegistryBase(ABC):
         ...
 
     @abstractmethod
-    def expected_attributes(self) -> Mapping[str, AttributeType]:
-        ...
+    def expected_attributes(self) -> Mapping[str, AttributeType]: ...
