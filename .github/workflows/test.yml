@@ -29,10 +29,7 @@ jobs:
 
       - name: Ruff Format
         run: |
-          pixi run --environment dev format --check | tee ruff-format.log
-          echo "::group::Formatted output"
-          cat ruff-format.log
-          echo "::endgroup::"
+          pixi run --environment dev format
 
       - name: Post format results as PR comments
         uses: reviewdog/action-suggester@v1
