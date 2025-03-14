@@ -785,7 +785,7 @@ packages:
 - pypi: .
   name: snakemake-interface-common
   version: 1.17.4
-  sha256: b4765842548788f8abc615cb439ac37df21a019ae1556f3a5b769161c22c22eb
+  sha256: c2737099267fe3750986660f970ed05e73f48b60adc887e6e337aa4d6b672256
   requires_dist:
   - argparse-dataclass>=2.0.0
   - configargparse>=1.7

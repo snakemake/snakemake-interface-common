@@ -44,3 +44,4 @@ ignore_missing_imports = true
 [tool.pixi.feature.dev.tasks]
 format = "ruff format snakemake_interface_common"
 lint = "ruff check"
+type-check = "mypy snakemake_interface_common/"
