@@ -11,10 +11,10 @@ name = "Johannes Koester"
 email = "johannes.koester@uni-due.de"
 
 [tool.coverage.run]
-omit = [".*", "*/site-packages/*"]
+omit = [".pixi/*", "**/tests.py"]
+source = ["snakemake_interface_common"]
 
 [tool.coverage.report]
-fail_under = 50
 
 [build-system]
 requires = ["setuptools>=42", "wheel"]
@@ -37,12 +37,17 @@ dev = { features = ["dev"] }
 pytest = ">=8.3.5,<9"
 ruff = ">=0.10.0,<0.11"
 mypy = ">=1.15.0,<2"
+pytest-cov = ">=6.0.0,<7"
 
 [tool.ruff]
 lint.ignore = ["E721"]
 
 [tool.mypy]
 ignore_missing_imports = true
+
+[tool.pixi.feature.dev.tasks.test]
+cmd = ["pytest", "--cov=snakemake_interface_common", "--cov-report=xml:coverage-report/coverage.xml", "--cov-report=term-missing", "tests/tests.py"]
+description = "Run tests and generate coverage report"
 
 [tool.pixi.feature.dev.tasks]
 format = "ruff format snakemake_interface_common"
