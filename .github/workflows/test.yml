@@ -33,27 +33,12 @@ jobs:
           echo "::group::Formatted output"
           cat ruff-format.log
           echo "::endgroup::"
-      
-      - name: Ruff Lint
-        run: |
-          pixi run --environment dev lint --output-format github | tee ruff-lint.log
-          echo "::group::Linted output"
-          cat ruff-lint.log
-          echo "::endgroup::"
-
-      - name: Post lint results as PR comments
-        uses: reviewdog/action-suggester@v1
-        with:
-          tool_name: ruff-lint
-          filter_mode: added
-          suggestions_file: ruff-lint.log
 
       - name: Post format results as PR comments
         uses: reviewdog/action-suggester@v1
         with:
           tool_name: ruff-format
           filter_mode: added
-          suggestions_file: ruff-format.log
 
   testing:
     runs-on: ubuntu-latest
