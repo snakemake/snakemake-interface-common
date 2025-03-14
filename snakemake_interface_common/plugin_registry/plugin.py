@@ -36,7 +36,7 @@ class SettingsBase:
 
 @dataclass
 class TaggedSettings:
-    _inner: Dict[str, SettingsBase] = field(default_factory=dict, init=False)
+    _inner: Dict[str | None, SettingsBase] = field(default_factory=dict, init=False)
 
     def register_settings(self, settings: SettingsBase, tag: Optional[str] = None):
         self._inner[tag] = settings
@@ -48,7 +48,7 @@ class TaggedSettings:
             settings = self._inner.get(None)
         return settings
 
-    def get_field_settings(self, field_name: str) -> Dict[str, Sequence[Any]]:
+    def get_field_settings(self, field_name: str) -> Dict[str | None, Sequence[Any]]:
         """Return a dictionary of tag -> value for the given field name."""
         return {
             tag: getattr(settings, field_name) for tag, settings in self._inner.items()
@@ -214,8 +214,8 @@ class PluginBase(ABC):
             value = getattr(args, prefixed_name)
             return field.name, value
 
-        kwargs_tagged = defaultdict(dict)
-        kwargs_all = dict()
+        kwargs_tagged: Dict[str | None, Dict[str, Any]] = defaultdict(dict)
+        kwargs_all: Dict[str, Any] = dict()
         required_args = set()
         field_names = dict()
 

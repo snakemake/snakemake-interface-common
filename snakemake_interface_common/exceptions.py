@@ -16,6 +16,10 @@ class ApiError(Exception):
 
 
 class WorkflowError(Exception):
+    lineno: Optional[int]
+    snakefile: Optional[Path]
+    rule: Optional[RuleInterface]
+
     def format_arg(self, arg):
         if isinstance(arg, str):
             return arg
@@ -55,7 +59,7 @@ class WorkflowError(Exception):
         if args and isinstance(args[0], str):
             spec = self._get_spec(self)
             if spec:
-                args = [f"{args[0]} ({spec})"] + list(args[1:])
+                args = tuple([f"{args[0]} ({spec})"] + list(args[1:]))
 
         super().__init__("\n".join(self.format_arg(arg) for arg in args))
 
