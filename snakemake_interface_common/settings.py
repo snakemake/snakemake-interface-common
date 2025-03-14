@@ -50,10 +50,12 @@ class SettingsEnumBase(Enum):
 
     @classmethod
     def choices(cls) -> List[str]:
+        """Returns a sorted list of all enum choices in lowercase with hyphens."""
         return sorted(item.item_to_choice() for item in cls)
 
     @classmethod
     def all(cls) -> FrozenSet[TSettingsEnumBase]:
+        """Returns a frozenset of all enum members except those marked to skip."""
         skip: FrozenSet[TSettingsEnumBase] = cls.skip_for_all()
         return frozenset(
             cast(TSettingsEnumBase, item) for item in cls if item not in skip
@@ -61,10 +63,12 @@ class SettingsEnumBase(Enum):
 
     @classmethod
     def parse_choices_list(cls, choices: List[str]) -> List[TSettingsEnumBase]:
+        """Converts a list of string choices into enum members."""
         return cls._parse_choices_into(choices, list)
 
     @classmethod
     def parse_choices_set(cls, choices: List[str]) -> Set[TSettingsEnumBase]:
+        """Converts a list of string choices into a set of enum members."""
         return cls._parse_choices_into(choices, set)
 
     @classmethod
@@ -73,21 +77,26 @@ class SettingsEnumBase(Enum):
         choices: List[str],
         container: Callable[[Iterable[TSettingsEnumBase]], TContainer],
     ) -> TContainer:
+        """Helper method to parse choices into a specified container type."""
         return container(
             cast(TSettingsEnumBase, cls.parse_choice(choice)) for choice in choices
         )
 
     @classmethod
     def parse_choice(cls, choice: str) -> SettingsEnumBase:
+        """Converts a single string choice into an enum member."""
         return cls[choice.replace("-", "_").upper()]
 
     @classmethod
     @abstractmethod
     def skip_for_all(cls) -> FrozenSet[TSettingsEnumBase]:
+        """Abstract method to define members to exclude from all()."""
         return frozenset()
 
     def item_to_choice(self) -> str:
+        """Converts an enum member name to lowercase with hyphens."""
         return self.name.replace("_", "-").lower()
 
     def __str__(self):
+        """Returns the string representation of the enum member (lowercase with hyphens)."""
         return self.item_to_choice()
