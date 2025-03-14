@@ -50,7 +50,7 @@ cmd = ["pytest", "--cov=snakemake_interface_common", "--cov-report=xml:coverage-
 description = "Run tests and generate coverage report"
 
 [tool.pixi.feature.dev.tasks]
-format = "ruff format snakemake_interface_common"
+format = "ruff format src"
 lint = "ruff check"
-type-check = "mypy snakemake_interface_common/"
+type-check = "mypy src/"
 qc = {depends-on= ["format", "lint", "type-check"]}
