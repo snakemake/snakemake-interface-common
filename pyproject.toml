@@ -1,21 +1,14 @@
-[tool.poetry]
+[project]
 name = "snakemake-interface-common"
 version = "1.17.4"
 description = "Common functions and classes for Snakemake and its plugins"
-authors = ["Johannes Koester <johannes.koester@uni-due.de>"]
 readme = "README.md"
+requires-python = ">=3.8"
+dependencies = ["argparse-dataclass>=2.0.0", "ConfigArgParse>=1.7"]
 
-[tool.poetry.dependencies]
-python = "^3.8"
-argparse-dataclass = "^2.0.0"
-ConfigArgParse = "^1.7"
-
-[tool.poetry.dev-dependencies]
-black = "^22.1.0"
-coverage = {extras = ["toml"], version = "^6.3.1"}
-flake8 = "^4.0.1"
-flake8-bugbear = "^22.1.11"
-pytest = "^7.0"
+[[project.authors]]
+name = "Johannes Koester"
+email = "johannes.koester@uni-due.de"
 
 [tool.coverage.run]
 omit = [".*", "*/site-packages/*"]
@@ -24,5 +17,5 @@ omit = [".*", "*/site-packages/*"]
 fail_under = 50
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
