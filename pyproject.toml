@@ -20,6 +20,9 @@ source = ["snakemake_interface_common"]
 requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.package-data]
+snakemake_interface_common = ["py.typed"]
+
 [dependency-groups]
 dev = ["connection-pool>=0.0.3,<0.0.4"]
 
@@ -46,11 +49,17 @@ lint.ignore = ["E721"]
 ignore_missing_imports = true
 
 [tool.pixi.feature.dev.tasks.test]
-cmd = ["pytest", "--cov=snakemake_interface_common", "--cov-report=xml:coverage-report/coverage.xml", "--cov-report=term-missing", "tests/tests.py"]
+cmd = [
+  "pytest",
+  "--cov=snakemake_interface_common",
+  "--cov-report=xml:coverage-report/coverage.xml",
+  "--cov-report=term-missing",
+  "tests/tests.py"
+]
 description = "Run tests and generate coverage report"
 
 [tool.pixi.feature.dev.tasks]
 format = "ruff format src"
 lint = "ruff check"
 type-check = "mypy src/"
-qc = {depends-on= ["format", "lint", "type-check"]}
+qc = { depends-on = ["format", "lint", "type-check"] }
