@@ -14,24 +14,19 @@ class TestRegistryBase(ABC):
     __test__ = False
 
     @abstractmethod
-    def get_registry(self) -> PluginRegistryBase:
-        ...
+    def get_registry(self) -> PluginRegistryBase: ...
 
     @abstractmethod
-    def get_test_plugin_name(self) -> str:
-        ...
+    def get_test_plugin_name(self) -> str: ...
 
     @abstractmethod
-    def validate_plugin(self, plugin: PluginBase):
-        ...
+    def validate_plugin(self, plugin: PluginBase): ...
 
     @abstractmethod
-    def validate_settings(self, settings: SettingsBase, plugin: PluginBase):
-        ...
+    def validate_settings(self, settings: SettingsBase, plugin: PluginBase): ...
 
     @abstractmethod
-    def get_example_args(self) -> List[str]:
-        ...
+    def get_example_args(self) -> List[str]: ...
 
     def test_registry_collect_plugins(self):
         registry = self.get_registry()
@@ -45,9 +40,9 @@ class TestRegistryBase(ABC):
         prefix = registry.get_plugin(self.get_test_plugin_name()).cli_prefix
         for action in parser._actions:
             if not action.dest == "help":
-                assert action.dest.startswith(
-                    prefix.replace("-", "_")
-                ), f"{prefix} is not a prefix of {action.dest}"
+                assert action.dest.startswith(prefix.replace("-", "_")), (
+                    f"{prefix} is not a prefix of {action.dest}"
+                )
 
     def test_registry_cli_args_to_settings(self):
         registry = self.get_registry()
