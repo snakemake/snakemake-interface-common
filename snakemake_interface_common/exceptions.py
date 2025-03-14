@@ -19,6 +19,7 @@ class WorkflowError(Exception):
     lineno: Optional[int]
     snakefile: Optional[Path]
     rule: Optional[RuleInterface]
+    
 
     def format_arg(self, arg):
         if isinstance(arg, str):
