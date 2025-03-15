@@ -97,6 +97,6 @@ class SettingsEnumBase(Enum):
         """Converts an enum member name to lowercase with hyphens."""
         return self.name.replace("_", "-").lower()
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Returns the string representation of the enum member (lowercase with hyphens)."""
         return self.item_to_choice()

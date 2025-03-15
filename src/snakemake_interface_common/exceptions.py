@@ -6,7 +6,7 @@ __license__ = "MIT"
 from pathlib import Path
 import sys
 import textwrap
-from typing import Optional
+from typing import Optional, Any
 
 from snakemake_interface_common.rules import RuleInterface
 
@@ -20,7 +20,7 @@ class WorkflowError(Exception):
     snakefile: Optional[Path]
     rule: Optional[RuleInterface]
 
-    def format_arg(self, arg):
+    def format_arg(self, arg: object) -> str:
         if isinstance(arg, str):
             return arg
         elif isinstance(arg, WorkflowError):
@@ -42,7 +42,7 @@ class WorkflowError(Exception):
 
     def __init__(
         self,
-        *args,
+        *args: Any,
         lineno: Optional[int] = None,
         snakefile: Optional[Path] = None,
         rule: Optional[RuleInterface] = None,
@@ -64,7 +64,7 @@ class WorkflowError(Exception):
         super().__init__("\n".join(self.format_arg(arg) for arg in args))
 
     @classmethod
-    def _get_spec(cls, exc):
+    def _get_spec(cls, exc: "WorkflowError") -> str:
         spec = ""
         if exc.rule is not None:
             spec += f"rule {exc.rule.name}"

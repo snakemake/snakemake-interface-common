@@ -5,10 +5,10 @@ __license__ = "MIT"
 
 from abc import ABC, abstractmethod
 from collections import defaultdict
-from dataclasses import field, fields
+from dataclasses import field, fields, Field
 from dataclasses import MISSING, dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Sequence, Type, Union
+from typing import Any, Dict, List, Optional, Sequence, Type, Union, TYPE_CHECKING
 import typing
 from snakemake_interface_common.exceptions import WorkflowError
 
@@ -17,6 +17,8 @@ from snakemake_interface_common._common import (
     dataclass_field_to_argument_args,
 )
 
+if TYPE_CHECKING:
+    from argparse import ArgumentParser
 # Valid Argument types (to distinguish from empty dataclasses)
 ArgTypes = (str, int, float, bool, list, Path)
 
@@ -25,7 +27,7 @@ ArgTypes = (str, int, float, bool, list, Path)
 class SettingsBase:
     """Base class for plugin settings."""
 
-    def get_items_by_category(self, category: str):
+    def get_items_by_category(self, category: str) -> typing.Iterator[tuple[str, Any]]:
         """Yield all items (name, value) of the given group (as defined by the)
         optional subgroup field in the metadata.
         """
@@ -38,7 +40,9 @@ class SettingsBase:
 class TaggedSettings:
     _inner: Dict[str | None, SettingsBase] = field(default_factory=dict, init=False)
 
-    def register_settings(self, settings: SettingsBase, tag: Optional[str] = None):
+    def register_settings(
+        self, settings: SettingsBase, tag: Optional[str] = None
+    ) -> None:
         self._inner[tag] = settings
 
     def get_settings(self, tag: Optional[str] = None) -> Optional[SettingsBase]:
@@ -54,7 +58,7 @@ class TaggedSettings:
             tag: getattr(settings, field_name) for tag, settings in self._inner.items()
         }
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Iterator[SettingsBase]:
         return iter(self._inner.values())
 
 
@@ -75,7 +79,7 @@ class PluginBase(ABC):
     def support_tagged_values(self) -> bool:
         return False
 
-    def has_settings_cls(self):
+    def has_settings_cls(self) -> bool:
         """Determine if a plugin defines custom executor settings"""
         return self.settings_cls is not None
 
@@ -84,7 +88,7 @@ class PluginBase(ABC):
             return []
         else:
 
-            def fmt_default(thefield):
+            def fmt_default(thefield: Field) -> Any:
                 if thefield.default is not MISSING:
                     if callable(thefield.default):
                         return "<function>"
@@ -110,7 +114,7 @@ class PluginBase(ABC):
                 for thefield in fields(self.settings_cls)
             ]
 
-    def register_cli_args(self, argparser):
+    def register_cli_args(self, argparser: "ArgumentParser") -> None:
         """Add arguments derived from self.executor_settings to given
         argparser."""
 
@@ -169,8 +173,8 @@ class PluginBase(ABC):
 
             settings.add_argument(*args, **kwargs)
 
-    def validate_settings(self, settings):
-        def get_description(thefield):
+    def validate_settings(self, settings: SettingsBase) -> None:
+        def get_description(thefield: Field) -> str:
             envvar = (
                 f" (or environment variable {self.get_envvar(thefield.name)})"
                 if thefield.metadata.get("env_var", None)
@@ -192,7 +196,7 @@ class PluginBase(ABC):
                 f"plugin {self.name}: {', '.join(cli_args)}."
             )
 
-    def get_settings(self, args) -> Union[SettingsBase, TaggedSettings]:
+    def get_settings(self, args: Any) -> Union[SettingsBase, TaggedSettings]:
         """Return an instance of self.executor_settings with values from args.
 
         This helper function will select executor plugin namespaces arguments
@@ -208,7 +212,7 @@ class PluginBase(ABC):
         # We will parse the args from snakemake back into the dataclass
         dc = self.settings_cls
 
-        def get_name_and_value(field):
+        def get_name_and_value(field: Field) -> tuple[str, Any]:
             # This is the actual field name without the prefix
             prefixed_name = self._get_prefixed_name(thefield.name).replace("-", "_")
             value = getattr(args, prefixed_name)
@@ -229,7 +233,9 @@ class PluginBase(ABC):
             if value is None:
                 continue
 
-            def extract_values(value, thefield, name, tag=None):
+            def extract_values(
+                value: Any, thefield: Field, name: str, tag: Optional[str] = None
+            ) -> None:
                 # This will only add instantiated values, and
                 # skip over dataclasses._MISSING_TYPE and similar
                 if isinstance(value, ArgTypes):
@@ -247,7 +253,7 @@ class PluginBase(ABC):
                         value = self._parse_type(
                             thefield, value, thefield.metadata["type"]
                         )
-                    elif thefield.type != str:
+                    elif thefield.type != str and isinstance(thefield.type, type):
                         value = self._parse_type(thefield, value, thefield.type)
                     if tag is None:
                         kwargs_all[name] = value
@@ -297,8 +303,8 @@ class PluginBase(ABC):
     def _get_prefixed_name(self, field_name: str) -> str:
         return f"{self.cli_prefix}_{field_name}"
 
-    def _parse_type(self, thefield, value, thetype):
-        def apply_type(value, thetype):
+    def _parse_type(self, thefield: Field, value: Any, thetype: Type) -> Any:
+        def apply_type(value: Any, thetype: Type) -> Any:
             try:
                 return thetype(value)
             except Exception as e:
