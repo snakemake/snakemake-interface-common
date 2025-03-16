@@ -3,7 +3,6 @@ __copyright__ = "Copyright 2023, Johannes Köster"
 __email__ = "johannes.koester@uni-due.de"
 __license__ = "MIT"
 
-from pathlib import Path
 import sys
 import textwrap
 from typing import Optional, Any
@@ -17,7 +16,7 @@ class ApiError(Exception):
 
 class WorkflowError(Exception):
     lineno: Optional[int]
-    snakefile: Optional[Path]
+    snakefile: Optional[str]
     rule: Optional[RuleInterface]
 
     def format_arg(self, arg: object) -> str:
@@ -44,7 +43,7 @@ class WorkflowError(Exception):
         self,
         *args: Any,
         lineno: Optional[int] = None,
-        snakefile: Optional[Path] = None,
+        snakefile: Optional[str] = None,
         rule: Optional[RuleInterface] = None,
     ):
         if rule is not None:
