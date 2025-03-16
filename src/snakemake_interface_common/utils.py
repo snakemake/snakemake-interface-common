@@ -2,7 +2,7 @@ import collections
 from datetime import datetime
 import os
 import subprocess as sp
-from typing import Any, Callable, Optional, Tuple, Type
+from typing import Any, Callable, Optional, Tuple
 
 
 def not_iterable(value: Any) -> bool:
