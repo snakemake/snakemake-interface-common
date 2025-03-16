@@ -25,7 +25,7 @@ class lazy_property(property):
         self.cached = f"_{method.__name__}"
         super().__init__(method, doc=method.__doc__)
 
-    def __get__(self, instance: Any, owner: Type) -> Any:  # type: ignore
+    def __get__(self, instance: Any, owner: type | None = None) -> Any:
         cached = (
             getattr(instance, self.cached) if hasattr(instance, self.cached) else None
         )
