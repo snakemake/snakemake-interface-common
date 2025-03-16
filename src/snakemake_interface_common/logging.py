@@ -10,6 +10,6 @@ if TYPE_CHECKING:
 
 def get_logger() -> "logging.Logger":
     """Retrieve the logger singleton from snakemake."""
-    from snakemake.logging import logger
+    from snakemake.logging import logger # type: ignore
 
     return logger
