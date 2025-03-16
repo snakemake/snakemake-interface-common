@@ -32,6 +32,11 @@ class SettingsEnumBase(Enum):
     item_to_choice() : str
         Converts an enum member name to lowercase with hyphens.
 
+    Abstract Methods
+    ----------------
+    skip_for_all() : FrozenSet[TSettingsEnumBase]
+        Abstract method to define members to exclude from all().
+
     Notes
     -----
     The class handles conversion between:
@@ -44,8 +49,20 @@ class SettingsEnumBase(Enum):
     ...     SETTING_ONE = "value1"
     ...     SETTING_TWO = "value2"
     ...
+    ...     @classmethod
     ...     def skip_for_all(cls):
     ...         return frozenset([cls.SETTING_TWO])
+    ...
+    >>> MySettings.choices()
+    ['setting-one', 'setting-two']
+    >>> MySettings.all()
+    frozenset({<MySettings.SETTING_ONE: 'value1'>})
+    >>> MySettings.parse_choices_list(["setting-one", "setting-two"])
+    [<MySettings.SETTING_ONE: 'value1'>, <MySettings.SETTING_TWO: 'value2'>]
+    >>> MySettings.parse_choice("setting-one")
+    <MySettings.SETTING_ONE: 'value1'>
+    >>> MySettings.SETTING_ONE.item_to_choice()
+    'setting-one'
     """
 
     @classmethod
