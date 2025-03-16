@@ -31,7 +31,7 @@ channels = ["conda-forge"]
 platforms = ["osx-arm64", "linux-64"]
 
 [tool.pixi.pypi-dependencies]
-snakemake-interface-common = { path = ".", editable = true }
+
 
 [tool.pixi.environments]
 dev = { features = ["dev"] }
@@ -43,6 +43,9 @@ ruff = ">=0.10.0,<0.11"
 mypy = ">=1.15.0,<2"
 pytest-cov = ">=6.0.0,<7"
 
+[tool.pixi.feature.dev.pypi-dependencies]
+snakemake-interface-common = { path = ".", editable = true }
+
 [tool.ruff]
 lint.ignore = ["E721"]
 
@@ -50,6 +53,7 @@ lint.ignore = ["E721"]
 ignore_missing_imports = true # Temporary until https://github.com/snakemake/snakemake-interface-common/pull/55
 disallow_untyped_defs = true
 warn_no_return = true
+
 
 [[tool.mypy.overrides]]
 # TODO:: figure out expected types for the TestRegistryBase class
@@ -62,7 +66,7 @@ cmd = [
   "--cov=snakemake_interface_common",
   "--cov-report=xml:coverage-report/coverage.xml",
   "--cov-report=term-missing",
-  "tests/tests.py"
+  "tests/"
 ]
 description = "Run tests and generate coverage report"
 
