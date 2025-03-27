@@ -11,8 +11,7 @@ name = "Johannes Koester"
 email = "johannes.koester@uni-due.de"
 
 [tool.coverage.run]
-omit = [".pixi/*", "**/tests.py"]
-source = ["snakemake_interface_common"]
+omit = ["**/tests.py"]
 
 [tool.coverage.report]
 
@@ -50,7 +49,6 @@ snakemake-interface-common = { path = ".", editable = true }
 lint.ignore = ["E721"]
 
 [tool.mypy]
-ignore_missing_imports = true # Temporary until https://github.com/snakemake/snakemake-interface-common/pull/55
 disallow_untyped_defs = true
 warn_no_return = true
 
@@ -63,7 +61,7 @@ ignore_errors = true
 [tool.pixi.feature.dev.tasks.test]
 cmd = [
   "pytest",
-  "--cov=.",
+  "--cov=snakemake_interface_common",
   "--cov-report=xml:coverage-report/coverage.xml",
   "--cov-report=term-missing",
   "tests/tests.py"
