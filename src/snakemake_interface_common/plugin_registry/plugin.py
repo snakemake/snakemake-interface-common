@@ -61,18 +61,15 @@ class TaggedSettings:
 class PluginBase(ABC):
     @property
     @abstractmethod
-    def name(self) -> str:
-        ...
+    def name(self) -> str: ...
 
     @property
     @abstractmethod
-    def cli_prefix(self) -> str:
-        ...
+    def cli_prefix(self) -> str: ...
 
     @property
     @abstractmethod
-    def settings_cls(self) -> Type[SettingsBase]:
-        ...
+    def settings_cls(self) -> Type[SettingsBase]: ...
 
     @property
     def support_tagged_values(self) -> bool:
