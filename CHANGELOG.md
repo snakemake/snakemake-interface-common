@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.19.0...v1.19.1) (2025-06-23)
+
+
+### Bug Fixes
+
+* fix type annotations for compatibility with older python versions ([#64](https://github.com/snakemake/snakemake-interface-common/issues/64)) ([0db57ec](https://github.com/snakemake/snakemake-interface-common/commit/0db57ec6f6e4931045fee4f4d2bff42432692267))
+
 ## [1.19.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.18.0...v1.19.0) (2025-06-23)
 
 
