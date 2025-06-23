@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.3](https://github.com/snakemake/snakemake-interface-common/compare/v1.19.2...v1.19.3) (2025-06-23)
+
+
+### Bug Fixes
+
+* relax version checking by allowing non-semver compatible dev version suffixes ([#68](https://github.com/snakemake/snakemake-interface-common/issues/68)) ([91c340f](https://github.com/snakemake/snakemake-interface-common/commit/91c340f0dd2e98e91412370381a23ce23fd0d090))
+
 ## [1.19.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.19.1...v1.19.2) (2025-06-23)
 
 
