@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.4](https://github.com/snakemake/snakemake-interface-common/compare/v1.19.3...v1.19.4) (2025-06-23)
+
+
+### Bug Fixes
+
+* backwards compatibility for typing ([c2567e8](https://github.com/snakemake/snakemake-interface-common/commit/c2567e8c18bb88ea2dbf7fa0c84d8b6990520031))
+
 ## [1.19.3](https://github.com/snakemake/snakemake-interface-common/compare/v1.19.2...v1.19.3) (2025-06-23)
 
 
