@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.18.0...v1.19.0) (2025-06-23)
+
+
+### Features
+
+* add function to check for minimum snakemake version ([#62](https://github.com/snakemake/snakemake-interface-common/issues/62)) ([7234583](https://github.com/snakemake/snakemake-interface-common/commit/72345832b0a54a0542751e0b363cb6e46e172e9d))
+
 ## [1.18.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.17.4...v1.18.0) (2025-03-27)
 
 
