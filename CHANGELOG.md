@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.17.4...v1.18.0) (2025-03-27)
+
+
+### Features
+
+* setup pixi, move to src layout, run ruff format once ([#58](https://github.com/snakemake/snakemake-interface-common/issues/58)) ([95d1d8d](https://github.com/snakemake/snakemake-interface-common/commit/95d1d8d0d8780305641eaeef2b58269dc710dcf7))
+
 ## [1.17.4](https://github.com/snakemake/snakemake-interface-common/compare/v1.17.3...v1.17.4) (2024-10-04)
 
 
