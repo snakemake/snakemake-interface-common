@@ -4,7 +4,7 @@ version = "1.17.4"
 description = "Common functions and classes for Snakemake and its plugins"
 readme = "README.md"
 requires-python = ">=3.8"
-dependencies = ["argparse-dataclass>=2.0.0", "ConfigArgParse>=1.7"]
+dependencies = ["argparse-dataclass>=2.0.0", "ConfigArgParse>=1.7", "semver >=3.0,<4.0"]
 
 [[project.authors]]
 name = "Johannes Koester"
@@ -23,7 +23,7 @@ build-backend = "setuptools.build_meta"
 snakemake_interface_common = ["py.typed"]
 
 [dependency-groups]
-dev = ["connection-pool>=0.0.3,<0.0.4"]
+dev = ["connection-pool>=0.0.3,<0.0.4", "snakemake>=9.6.0"]
 
 [tool.pixi.project]
 channels = ["conda-forge"]
