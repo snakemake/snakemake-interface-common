@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.19.1...v1.19.2) (2025-06-23)
+
+
+### Bug Fixes
+
+* ensure backwards compatibility of type annotations ([#66](https://github.com/snakemake/snakemake-interface-common/issues/66)) ([6ae173d](https://github.com/snakemake/snakemake-interface-common/commit/6ae173d5b8078d25024174f03e6bde7689138011))
+
 ## [1.19.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.19.0...v1.19.1) (2025-06-23)
 
 
