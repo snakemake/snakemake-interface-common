@@ -31,7 +31,6 @@ platforms = ["osx-arm64", "linux-64"]
 
 [tool.pixi.pypi-dependencies]
 
-
 [tool.pixi.environments]
 dev = { features = ["dev"] }
 publish = { features = ["publish"] }
@@ -52,11 +51,19 @@ lint.ignore = ["E721"]
 disallow_untyped_defs = true
 warn_no_return = true
 
-
 [[tool.mypy.overrides]]
 # TODO:: figure out expected types for the TestRegistryBase class
 module = "snakemake_interface_common.plugin_registry.tests"
 ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "argparse_dataclass"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# TODO: remove once Snakemake is fully typed
+module = "snakemake"
+follow_untyped_imports = true
 
 [tool.pixi.feature.dev.tasks.test]
 cmd = [
