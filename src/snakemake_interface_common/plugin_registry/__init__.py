@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 import types
 import pkgutil
 import importlib
-from typing import List, Mapping, TYPE_CHECKING, TypeVar, Generic
+from typing import Dict, List, Mapping, TYPE_CHECKING, TypeVar, Generic
 
 from snakemake_interface_common.exceptions import InvalidPluginException
 from snakemake_interface_common.plugin_registry.plugin import PluginBase
@@ -23,7 +23,7 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
     """This class is a singleton that holds all registered executor plugins."""
 
     _instance = None
-    plugins: dict[str, TPlugin]
+    plugins: Dict[str, TPlugin]
 
     def __new__(
         cls: type["PluginRegistryBase[TPlugin]"],

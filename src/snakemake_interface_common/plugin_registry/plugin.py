@@ -14,6 +14,7 @@ from typing import (
     List,
     Optional,
     Sequence,
+    Tuple,
     Type,
     Union,
     TYPE_CHECKING,
@@ -39,7 +40,7 @@ ArgTypes = (str, int, float, bool, list, Path)
 class SettingsBase:
     """Base class for plugin settings."""
 
-    def get_items_by_category(self, category: str) -> typing.Iterator[tuple[str, Any]]:
+    def get_items_by_category(self, category: str) -> typing.Iterator[Tuple[str, Any]]:
         """Yield all items (name, value) of the given group (as defined by the)
         optional subgroup field in the metadata.
         """
@@ -227,7 +228,7 @@ class PluginBase(ABC, Generic[TSettingsBase]):
 
         # We will parse the args from snakemake back into the dataclass
 
-        def get_name_and_value(field: Field) -> tuple[str, Any]:
+        def get_name_and_value(field: Field) -> Tuple[str, Any]:
             # This is the actual field name without the prefix
             prefixed_name = self._get_prefixed_name(field.name).replace("-", "_")
             value = getattr(args, prefixed_name)
