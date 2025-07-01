@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.19.4...v1.20.0) (2025-07-01)
+
+
+### Features
+
+* add AnnotatedStringInterface ([#72](https://github.com/snakemake/snakemake-interface-common/issues/72)) ([0ba09d8](https://github.com/snakemake/snakemake-interface-common/commit/0ba09d8527772f8220cfa556eccfc8339d93381c))
+
 ## [1.19.4](https://github.com/snakemake/snakemake-interface-common/compare/v1.19.3...v1.19.4) (2025-06-23)
 
 
