@@ -3,7 +3,7 @@ from typing import Any, Dict
 
 
 class AnnotatedStringInterface(ABC):
-    """Interface for annotated strings/callables as they are used for input/output in 
+    """Interface for annotated strings/callables as they are used for input/output in
     Snakemake rules.
     """
 
