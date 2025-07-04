@@ -10,6 +10,11 @@ dependencies = ["argparse-dataclass>=2.0.0", "ConfigArgParse>=1.7", "packaging >
 name = "Johannes Koester"
 email = "johannes.koester@uni-due.de"
 
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]
+
 [tool.coverage.run]
 omit = ["**/tests.py"]
 
@@ -33,6 +38,7 @@ platforms = ["osx-arm64", "linux-64"]
 
 [tool.pixi.environments]
 dev = { features = ["dev"] }
+minpyver = { features = ["minpyver"]} 
 publish = { features = ["publish"] }
 
 [tool.pixi.feature.dev.dependencies]
@@ -71,15 +77,26 @@ cmd = [
   "--cov=snakemake_interface_common",
   "--cov-report=xml:coverage-report/coverage.xml",
   "--cov-report=term-missing",
-  "tests/tests.py"
+  "tests/tests.py",
+  "tests/test_snakemake_dependent.py"
 ]
 description = "Run tests and generate coverage report"
+
+[tool.pixi.feature.minpyver.tasks.test-min-python]
+cmd = [
+  "pytest",
+  "tests/tests.py"
+]
 
 [tool.pixi.feature.dev.tasks]
 format = "ruff format src"
 lint = "ruff check"
 type-check = "mypy src/"
 qc = { depends-on = ["format", "lint", "type-check"] }
+
+[tool.pixi.feature.minpyver.dependencies]
+python = "3.8.*"
+pytest = "*"
 
 # Publish
 [tool.pixi.feature.publish.dependencies]
