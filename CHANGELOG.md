@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.20.0...v1.20.1) (2025-07-04)
+
+
+### Bug Fixes
+
+* allow older packaging dep ([#74](https://github.com/snakemake/snakemake-interface-common/issues/74)) ([8b6b49c](https://github.com/snakemake/snakemake-interface-common/commit/8b6b49c81c608b8fd7abd1fbd01ec5a4668717e3))
+
 ## [1.20.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.19.4...v1.20.0) (2025-07-01)
 
 
