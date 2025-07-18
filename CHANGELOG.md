@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.20.1...v1.20.2) (2025-07-18)
+
+
+### Bug Fixes
+
+* fix misleading CLI help text ([#76](https://github.com/snakemake/snakemake-interface-common/issues/76)) ([2066947](https://github.com/snakemake/snakemake-interface-common/commit/20669473abb09e3dce90fa50418b777a3ddb714b))
+
 ## [1.20.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.20.0...v1.20.1) (2025-07-04)
 
 
