@@ -151,7 +151,9 @@ class PluginBase(ABC, Generic[TSettingsBase]):
                     self.name, "Fields of ExecutorSettings must have a default value."
                 )
 
-        settings = argparser.add_argument_group(f"{self.name} {plugin_type} plugin settings")
+        settings = argparser.add_argument_group(
+            f"{self.name} {plugin_type} plugin settings"
+        )
 
         for thefield in fields(params):
             prefixed_name = self._get_prefixed_name(thefield.name).replace("-", "_")
