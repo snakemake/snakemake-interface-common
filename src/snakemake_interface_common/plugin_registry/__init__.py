@@ -70,12 +70,12 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
             plugin.register_cli_args(argparser, plugin_type)
 
     def get_plugin_type(self) -> str:
-        m = re.match(r"(?P<type>).+)PluginRegistry", self.__name__)
+        m = re.match(r"(?P<type>.+)PluginRegistry", self.__class__.__name__)
         if m is not None:
             return m.group("type").lower()
         raise ValueError(
             "Unable to infer plugin type name from registry class "
-            f"name: {self.__name__}. The name is expected to follow the "
+            f"name: {self.__class__.__name__}. The name is expected to follow the "
             "pattern <type>PluginRegistry, e.g. ExecutorPluginRegistry."
         )
 
