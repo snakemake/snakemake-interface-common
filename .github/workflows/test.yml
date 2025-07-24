@@ -24,7 +24,6 @@ jobs:
         uses: prefix-dev/setup-pixi@v0.8.3
         with:
           environments: dev
-          pixi-version: v0.42.1
 
       - name: Ruff Format
         if: always()
@@ -53,7 +52,19 @@ jobs:
         uses: prefix-dev/setup-pixi@v0.8.3
         with:
           environments: dev
-          pixi-version: v0.42.1
 
       - name: Run tests
         run: pixi run --environment dev test --show-capture=all -s -vv
+
+  test-min-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Pixi
+        uses: prefix-dev/setup-pixi@v0.8.3
+        with:
+          environments: minpyver
+
+      - name: Run tests with min python
+        run: pixi run --environment minpyver test-min-python -v
