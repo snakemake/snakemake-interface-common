@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.20.2...v1.21.0) (2025-07-24)
+
+
+### Features
+
+* add functionality to infer plugin type from registry class name and use that to provide better CLI help texts ([#78](https://github.com/snakemake/snakemake-interface-common/issues/78)) ([960eef6](https://github.com/snakemake/snakemake-interface-common/commit/960eef677f72eb5a181d75ce986bce1c7a7bbb95))
+
 ## [1.20.2](https://github.com/snakemake/snakemake-interface-common/compare/v1.20.1...v1.20.2) (2025-07-18)
 
 
