@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.22.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.21.0...v1.22.0) (2025-09-30)
+
+
+### Features
+
+* expand variables and user dirs in settings of type Path. ([#83](https://github.com/snakemake/snakemake-interface-common/issues/83)) ([ea3357f](https://github.com/snakemake/snakemake-interface-common/commit/ea3357f4fd6502da0dbaa1296e1fbadf2414b8d3))
+* extend API for plugin type validation and retrieval ([#82](https://github.com/snakemake/snakemake-interface-common/issues/82)) ([f641114](https://github.com/snakemake/snakemake-interface-common/commit/f641114170f29e2edbe4ef1ab00747889425326d))
+
+
+### Bug Fixes
+
+* add help text for user dir and env var expansion ([#85](https://github.com/snakemake/snakemake-interface-common/issues/85)) ([75ff281](https://github.com/snakemake/snakemake-interface-common/commit/75ff2819b347301f346dead59319053e44e29af1))
+
 ## [1.21.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.20.2...v1.21.0) (2025-07-24)
 
 
