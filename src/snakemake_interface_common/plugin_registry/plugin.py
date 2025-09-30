@@ -167,6 +167,11 @@ class PluginBase(ABC, Generic[TSettingsBase]):
             if "metavar" not in kwargs:
                 kwargs["metavar"] = "VALUE"
 
+            if thefield.type == Path:
+                kwargs["help"] += (
+                    " User dir (~) and environment variables are properly interpreted."
+                )
+
             if thefield.type == bool:
                 # boolean args may not have a metavar
                 del kwargs["metavar"]
