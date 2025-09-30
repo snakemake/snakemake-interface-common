@@ -13,8 +13,6 @@ email = "johannes.koester@uni-due.de"
 [tool.coverage.run]
 omit = ["**/tests.py"]
 
-[tool.coverage.report]
-
 [build-system]
 requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
