@@ -7,6 +7,7 @@ from abc import ABC, abstractmethod
 from collections import defaultdict
 from dataclasses import field, fields, Field
 from dataclasses import MISSING, dataclass
+import os
 from pathlib import Path
 from typing import (
     Any,
@@ -273,6 +274,11 @@ class PluginBase(ABC, Generic[TSettingsBase]):
                         )
                     elif thefield.type != str and isinstance(thefield.type, type):
                         value = self._parse_type(thefield, value, thefield.type)
+
+                    # expand variables and user dirs in paths
+                    if isinstance(value, Path):
+                        value = Path(os.path.expandvars(str(value.expanduser())))
+
                     if tag is None:
                         kwargs_all[name] = value
                     else:
