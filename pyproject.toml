@@ -63,13 +63,16 @@ ignore_missing_imports = true
 module = "snakemake"
 follow_untyped_imports = true
 
+[tool.pytest.ini_options]
+python_files = ["test_*.py", "tests.py"]
+
 [tool.pixi.feature.dev.tasks.test]
 cmd = [
   "pytest",
   "--cov=snakemake_interface_common",
   "--cov-report=xml:coverage-report/coverage.xml",
   "--cov-report=term-missing",
-  "tests/tests.py"
+  "tests/",
 ]
 description = "Run tests and generate coverage report"
 
