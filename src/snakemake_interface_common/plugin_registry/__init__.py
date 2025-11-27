@@ -21,7 +21,25 @@ TPlugin = TypeVar("TPlugin", bound=PluginBase, covariant=True)
 
 
 class PluginRegistryBase(ABC, Generic[TPlugin]):
-    """This class is a singleton that holds all registered executor plugins."""
+    """Base class to discover and record all available plugins of a given type.
+
+    This class is a singleton, all calls to the constructor will return the same instance.
+    ``__init__()`` should not take any arguments.
+
+    Derived class names are expected to end with ``PluginRegistry``, where the prefix is the type of
+    plugin (e.g. ``ExecutorPluginRegistry``). This is returned by :meth:`get_plugin_type()`.
+
+    Package discovery works by searching through all importable top-level modules in ``sys.path``
+    and selecting those where the full name matches ``"{self.module_prefix}_{plugin_name}"``, where
+    :attr:`module_prefix` should be ``"snakemake_{plugin_type}_plugin_"``. The plugin will be
+    registered under the name ``plugin_name``, but with underscores replaced with dashes. Note that
+    this will not detect packages installed in editable mode ``(pip install -e .)``.
+
+    Example: a package named ``snakemake_executor_plugin_my_executor`` will be discovered by the
+    ``executor`` registry (with ``module_prefix = "snakemake_executor_plugin_"``) and registered
+    under the name ``"my-executor"``. The corresponding Pip/distribution package should be named
+    ``snakemake-executor-plugin-my-executor``, although this is not enforced.
+    """
 
     _instance = None
     plugins: Dict[str, TPlugin]
@@ -39,6 +57,23 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
             return
         self.collect_plugins()
 
+    ######## Abstract methods ########
+
+    @property
+    @abstractmethod
+    def module_prefix(self) -> str:
+        """Prefix used to identify plugins by importable module name."""
+
+    @abstractmethod
+    def load_plugin(self, name: str, module: types.ModuleType) -> TPlugin:
+        """Instantiate the plugin object given its name and imported module."""
+
+    @abstractmethod
+    def expected_attributes(self) -> Mapping[str, AttributeType]:
+        """Get expected attributes of imported plugin module."""
+
+    ######## Other methods ########
+
     def get_registered_plugins(self) -> List[str]:
         """Return a list of registered plugin names."""
         return [name for name in self.plugins.keys()]
@@ -48,7 +83,7 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
         return plugin_name in self.plugins
 
     def get_plugin(self, plugin_name: str) -> PluginBase:
-        """Get a plugin by name."""
+        """Get a registered plugin by name."""
         try:
             return self.plugins[plugin_name]
         except KeyError:
@@ -59,17 +94,23 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
             )
 
     def get_plugin_package_name(self, plugin_name: str) -> str:
-        """Get the package name of a plugin by name."""
+        """Get the package name of a plugin by name.
+
+        This is the pip-installable package name, not the name used to import the plugin module.
+        """
         return f"{self.module_prefix.replace('_', '-')}{plugin_name}"
 
     def register_cli_args(self, argparser: "ArgumentParser") -> None:
-        """Add arguments derived from self.executor_settings to given
-        argparser."""
+        """Add arguments derived from all registered plugins to given argparser."""
         plugin_type = self.get_plugin_type()
         for _, plugin in self.plugins.items():
             plugin.register_cli_args(argparser, plugin_type)
 
     def get_plugin_type(self) -> str:
+        """Get a string describing the type of plugin tracked by the registry.
+
+        This is derived from the class name.
+        """
         m = re.match(r"(?P<type>.+)PluginRegistry", self.__class__.__name__)
         if m is not None:
             return m.group("type").lower()
@@ -80,15 +121,9 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
         )
 
     def collect_plugins(self) -> None:
-        """Collect plugins and call register_plugin for each."""
+        """Collect plugins, import their modules, and call :meth:`register_plugin` for each."""
         self.plugins = dict()
 
-        # Executor plugins are externally installed plugins named
-        # "snakemake_executor_<name>".
-        # They should follow the same convention if on pip,
-        # snakemake-executor-<name>.
-        # Note that these will not be detected installed in editable
-        # mode (pip install -e .).
         for moduleinfo in pkgutil.iter_modules():
             if not moduleinfo.ispkg or not moduleinfo.name.startswith(
                 self.module_prefix
@@ -116,7 +151,21 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
         return True
 
     def validate_plugin(self, name: str, module: types.ModuleType) -> None:
-        """Validate a plugin for attributes and naming"""
+        """Validate a plugin module for attributes and naming.
+
+        Parameters
+        ----------
+        name
+            The name the plugin is to be registered under.
+        module
+            The plugin's imported module.
+
+        Raises
+        ------
+        InvalidPluginException
+            If any module attributes have an incorrect type or a required attribute is missing.
+        """
+
         expected_attributes = self.expected_attributes()
         for attr, attr_type in expected_attributes.items():
             # check if attr is missing and fail if it is not optional
@@ -140,15 +189,3 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
                     raise InvalidPluginException(
                         name, f"{attr} must be of type {attr_type.cls.__name__}."
                     )
-
-    @property
-    @abstractmethod
-    def module_prefix(self) -> str: ...
-
-    @abstractmethod
-    def load_plugin(self, name: str, module: types.ModuleType) -> TPlugin:
-        """Load a plugin by name."""
-        ...
-
-    @abstractmethod
-    def expected_attributes(self) -> Mapping[str, AttributeType]: ...
