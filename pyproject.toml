@@ -77,7 +77,7 @@ cmd = [
 description = "Run tests and generate coverage report"
 
 [tool.pixi.feature.dev.tasks]
-format = "ruff format src"
+format = "ruff format src tests"
 lint = "ruff check"
 type-check = "mypy src/"
 qc = { depends-on = ["format", "lint", "type-check"] }

@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 from types import ModuleType
 from pathlib import Path
+from typing import Self
 
 from snakemake_interface_common.plugin_registry import PluginRegistryBase
 from snakemake_interface_common.plugin_registry.plugin import PluginBase, SettingsBase
@@ -34,6 +35,13 @@ class ExamplePlugin(PluginBase):
 
 
 class ExamplePluginRegistry(PluginRegistryBase[ExamplePlugin]):
+    @classmethod
+    def new(cls) -> Self:
+        """Create a new non-singleton instance for testing."""
+        instance = object.__new__(cls)
+        instance.__init__()
+        return instance
+
     @property
     def module_prefix(self) -> str:
         return "snakemake_example_plugin_"
