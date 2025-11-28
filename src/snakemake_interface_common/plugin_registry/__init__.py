@@ -80,15 +80,21 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
         """Return True if the plugin is registered."""
         return plugin_name in self.plugins
 
-    def get_plugin(self, plugin_name: str) -> PluginBase:
-        """Get a registered plugin by name."""
+    def get_plugin(self, plugin_name: str) -> TPlugin:
+        """Get a registered plugin by name.
+
+        Raises
+        ------
+        InvalidPluginException
+            If the plugin is not registered.
+        """
         try:
             return self.plugins[plugin_name]
         except KeyError:
+            pkgname = self.get_plugin_package_name(plugin_name)
             raise InvalidPluginException(
                 plugin_name,
-                f"The package {self.module_prefix.replace('_', '-')}{plugin_name} is "
-                "not installed.",
+                f"The package {pkgname} is not installed.",
             )
 
     def get_plugin_package_name(self, plugin_name: str) -> str:
