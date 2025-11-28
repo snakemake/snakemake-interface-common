@@ -44,12 +44,12 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
     _instance = None
     plugins: Dict[str, TPlugin]
 
-    def __new__(
-        cls: Type["PluginRegistryBase[TPlugin]"],
-    ) -> "PluginRegistryBase[TPlugin]":
+    def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
-        return cls._instance
+        # The following can cause issues with the type checker, ignore the line to make it assume
+        # standard behavior of returning an instance of cls (which should be the case).
+        return cls._instance  # type: ignore
 
     def __init__(self) -> None:
         if hasattr(self, "plugins"):
