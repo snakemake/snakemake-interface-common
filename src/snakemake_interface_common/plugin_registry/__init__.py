@@ -129,23 +129,34 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
                 self.module_prefix
             ):
                 continue
-            module = importlib.import_module(moduleinfo.name)
-            self.register_plugin(moduleinfo.name, module)
 
-    def register_plugin(self, name: str, plugin: types.ModuleType) -> None:
+            name = moduleinfo.name.removeprefix(self.module_prefix).replace("_", "-")
+            module = importlib.import_module(moduleinfo.name)
+            self.register_plugin(name, module)
+
+    def register_plugin(self, name: str, module: types.ModuleType) -> None:
         """Validate and register a plugin.
 
         Does nothing if the plugin is already registered.
+
+        Parameters
+        ----------
+        name
+            The name to register the plugin under. If derived from the module name, it should have
+            :attr:`module_prefix` removed.
+        module
+            The plugin's imported module.
+
+        Raises
+        ------
+        InvalidPluginException
+            If validation fails.
         """
         if name in self.plugins:
             return
 
-        self.validate_plugin(name, plugin)
-
-        # Derive the shortened name for future access
-        plugin_name = name.removeprefix(self.module_prefix).replace("_", "-")
-
-        self.plugins[plugin_name] = self.load_plugin(plugin_name, plugin)
+        self.validate_plugin(name, module)
+        self.plugins[name] = self.load_plugin(name, module)
 
     def is_valid_plugin_package_name(self, name: str) -> bool:
         return True
