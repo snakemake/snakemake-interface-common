@@ -3,7 +3,7 @@ name = "snakemake-interface-common"
 version = "1.22.0"
 description = "Common functions and classes for Snakemake and its plugins"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.11"
 dependencies = ["argparse-dataclass>=2.0.0", "ConfigArgParse>=1.7", "packaging >=24.0,<26.0"]
 
 [[project.authors]]
