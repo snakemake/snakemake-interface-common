@@ -8,7 +8,7 @@ import re
 import types
 import pkgutil
 import importlib
-from typing import Dict, List, Mapping, TYPE_CHECKING, Type, TypeVar, Generic
+from typing import Dict, List, Mapping, TYPE_CHECKING, Type, TypeVar, Generic, Self
 
 from snakemake_interface_common.exceptions import InvalidPluginException
 from snakemake_interface_common.plugin_registry.plugin import PluginBase
@@ -41,12 +41,10 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
     ``snakemake-executor-plugin-my-executor``, although this is not enforced.
     """
 
-    _instance = None
+    _instance: Self | None = None
     plugins: Dict[str, TPlugin]
 
-    def __new__(
-        cls: Type["PluginRegistryBase[TPlugin]"],
-    ) -> "PluginRegistryBase[TPlugin]":
+    def __new__(cls) -> Self:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
