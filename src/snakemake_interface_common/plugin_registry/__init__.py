@@ -8,7 +8,18 @@ import re
 import types
 import pkgutil
 import importlib
-from typing import Dict, List, Mapping, TYPE_CHECKING, Type, TypeVar, Generic, Self
+from typing import (
+    Dict,
+    List,
+    Mapping,
+    TYPE_CHECKING,
+    Type,
+    TypeVar,
+    Generic,
+    Optional,
+    Self,
+)
+from importlib.metadata import entry_points
 
 from snakemake_interface_common.exceptions import InvalidPluginException
 from snakemake_interface_common.plugin_registry.plugin import PluginBase
@@ -27,18 +38,32 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
     ``__init__()`` should not take any arguments.
 
     Derived class names are expected to end with ``PluginRegistry``, where the prefix is the type of
-    plugin (e.g. ``ExecutorPluginRegistry``). This is returned by :meth:`get_plugin_type()`.
+    plugin (e.g. ``ExecutorPluginRegistry``). This is returned by :meth:`get_plugin_type`.
 
-    Package discovery works by searching through all importable top-level modules in ``sys.path``
-    and selecting those where the full name matches ``"{self.module_prefix}_{plugin_name}"``, where
-    :attr:`module_prefix` should be ``"snakemake_{plugin_type}_plugin_"``. The plugin will be
-    registered under the name ``plugin_name``, but with underscores replaced with dashes. Note that
-    this will not detect packages installed in editable mode ``(pip install -e .)``.
+    Package discovery happens in two ways, by package name and by entry point.
+
+    Named-based discovery works by searching through all importable top-level modules in
+    ``sys.path`` and selecting those where the full name matches
+    ``"{self.module_prefix}_{plugin_name}"``, where :attr:`module_prefix` should be
+    ``"snakemake_{plugin_type}_plugin_"``. The plugin will be registered under the name
+    ``plugin_name``, but with underscores replaced with dashes. Note that this will not detect
+    packages installed in editable mode ``(pip install -e .)``.
 
     Example: a package named ``snakemake_executor_plugin_my_executor`` will be discovered by the
     ``executor`` registry (with ``module_prefix = "snakemake_executor_plugin_"``) and registered
     under the name ``"my-executor"``. The corresponding Pip/distribution package should be named
     ``snakemake-executor-plugin-my-executor``, although this is not enforced.
+
+    Entry point discovery uses importlib's `entry point system`_. If the :attr:`entry_point`
+    property is overridden to return a string, plugins can be registered under the
+    ``snakemake.{entry_point}`` group in their ``pyproject.toml``. For example, if the entry point
+    group is ``executors``, the following registers the module ``my_executor.submodule`` under the
+    name ``my-executor``:
+
+        [project.entry-points.'snakemake.executors']
+        my-executor = "my_executor.submodule"
+
+    .. _entry point system: https://packaging.python.org/en/latest/specifications/entry-points/
     """
 
     _instance: Self | None = None
@@ -55,12 +80,21 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
             return
         self.collect_plugins()
 
-    ######## Abstract methods ########
+    ######## Abstract/overridable methods ########
 
     @property
     @abstractmethod
     def module_prefix(self) -> str:
         """Prefix used to identify plugins by importable module name."""
+
+    @property
+    def entry_point(self) -> Optional[str]:
+        """Group name used to register plugins through the entry point system.
+
+        The full group name is ``"snakemake.{name}"``. If None the entry point system
+        will not be used.
+        """
+        return None
 
     @abstractmethod
     def load_plugin(self, name: str, module: types.ModuleType) -> TPlugin:
@@ -127,7 +161,10 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
     def collect_plugins(self) -> None:
         """Collect plugins, import their modules, and call :meth:`register_plugin` for each."""
         self.plugins = dict()
+        self._collect_plugins_by_name()
+        self._collect_plugins_by_entry_point()
 
+    def _collect_plugins_by_name(self) -> None:
         for moduleinfo in pkgutil.iter_modules():
             if not moduleinfo.ispkg or not moduleinfo.name.startswith(
                 self.module_prefix
@@ -137,6 +174,32 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
             name = moduleinfo.name.removeprefix(self.module_prefix).replace("_", "-")
             module = importlib.import_module(moduleinfo.name)
             self.register_plugin(name, module)
+
+    def _collect_plugins_by_entry_point(self) -> None:
+        if self.entry_point is None:
+            return
+        group = "snakemake." + self.entry_point
+
+        for ep in entry_points(group=group):
+            # Should be a module
+            if ":" in ep.value:
+                raise InvalidPluginException(
+                    ep.name,
+                    f"invalid entry point {ep.value!r} (should not contain a colon)",
+                )
+
+            # Unlike registration by package name, there can be duplicates
+            if ep.name in self.plugins:
+                continue
+
+            try:
+                module = ep.load()
+            except ImportError as exc:
+                raise InvalidPluginException(
+                    ep.name, f"unable to import {ep.value}"
+                ) from exc
+
+            self.register_plugin(ep.name, module)
 
     def register_plugin(self, name: str, module: types.ModuleType) -> None:
         """Validate and register a plugin.

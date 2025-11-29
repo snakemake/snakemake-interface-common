@@ -46,6 +46,10 @@ class ExamplePluginRegistry(PluginRegistryBase[ExamplePlugin]):
     def module_prefix(self) -> str:
         return "snakemake_example_plugin_"
 
+    @property
+    def entry_point(self) -> str:
+        return "example_plugins"
+
     def load_plugin(self, name: str, module: ModuleType) -> ExamplePlugin:
         settings_cls = getattr(module, "ExampleSettings", None)
         string_attr = module.example_string
