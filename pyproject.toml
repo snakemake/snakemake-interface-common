@@ -33,13 +33,11 @@ platforms = ["osx-arm64", "linux-64"]
 dev = { features = ["dev"] }
 publish = { features = ["publish"] }
 
-[tool.pixi.feature.dev.dependencies]
+[tool.pixi.feature.dev.pypi-dependencies]
 pytest = ">=8.3.5,<9"
 ruff = ">=0.10.0,<0.11"
 mypy = ">=1.15.0,<2"
 pytest-cov = ">=6.0.0,<7"
-
-[tool.pixi.feature.dev.pypi-dependencies]
 snakemake-interface-common = { path = ".", editable = true }
 
 [tool.ruff]
@@ -80,9 +78,9 @@ type-check = "mypy src/"
 qc = { depends-on = ["format", "lint", "type-check"] }
 
 # Publish
-[tool.pixi.feature.publish.dependencies]
+[tool.pixi.feature.publish.pypi-dependencies]
 twine = ">=6.1.0,<7"
-python-build = ">=1.2.2,<2"
+build = ">=1.2.2,<2"
 
 [tool.pixi.feature.publish.tasks]
 build = { cmd = "python -m build", description = "Build the package into the dist/ directory" }
