@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.23.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.22.0...v1.23.0) (2026-03-08)
+
+
+### Features
+
+* add SoftwareReport ([459fb2b](https://github.com/snakemake/snakemake-interface-common/commit/459fb2bd54a5bd9e2721a72b67a86c6c40769bf9))
+
 ## [1.22.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.21.0...v1.22.0) (2025-09-30)
 
 
