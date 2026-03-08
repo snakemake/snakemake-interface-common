@@ -23,7 +23,7 @@ snakemake_interface_common = ["py.typed"]
 [dependency-groups]
 dev = ["connection-pool>=0.0.3,<0.0.4", "snakemake>=9.6.0"]
 
-[tool.pixi.project]
+[tool.pixi.workspace]
 channels = ["conda-forge"]
 platforms = ["osx-arm64", "linux-64"]
 
