@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.23.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.23.0...v1.23.1) (2026-03-13)
+
+
+### Bug Fixes
+
+* recover handling of typing.Optional[X] ([#90](https://github.com/snakemake/snakemake-interface-common/issues/90)) ([62cf62e](https://github.com/snakemake/snakemake-interface-common/commit/62cf62e202dd6b0f8c193ef391b6e196182dcd66))
+
 ## [1.23.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.22.0...v1.23.0) (2026-03-08)
 
 
