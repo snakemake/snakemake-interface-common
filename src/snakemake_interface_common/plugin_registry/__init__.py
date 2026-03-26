@@ -8,7 +8,7 @@ import re
 import types
 import pkgutil
 import importlib
-from typing import Dict, List, Mapping, TYPE_CHECKING, Type, TypeVar, Generic
+from typing import Dict, List, Mapping, TYPE_CHECKING, TypeVar, Generic
 
 from snakemake_interface_common.exceptions import InvalidPluginException
 from snakemake_interface_common.plugin_registry.plugin import PluginBase
@@ -190,7 +190,9 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
             attr_value = getattr(module, attr)
             if attr_type.is_class:
                 # check for class type
-                if not isinstance(attr_value, type) or not issubclass(attr_value, attr_type.cls):
+                if not isinstance(attr_value, type) or not issubclass(
+                    attr_value, attr_type.cls
+                ):
                     raise InvalidPluginException(
                         name,
                         f"{attr} must be a subclass of "

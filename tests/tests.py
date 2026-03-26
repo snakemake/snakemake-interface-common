@@ -4,7 +4,11 @@ import pytest
 
 from snakemake_interface_common import at_least_snakemake_version
 from snakemake_interface_common.exceptions import ApiError, WorkflowError
-from snakemake_interface_common.plugin_registry.plugin import TaggedSettings, SettingsBase, PluginBase
+from snakemake_interface_common.plugin_registry.plugin import (
+    TaggedSettings,
+    SettingsBase,
+    PluginBase,
+)
 from snakemake_interface_common.rules import RuleInterface
 from snakemake_interface_common.settings import SettingsEnumBase
 
