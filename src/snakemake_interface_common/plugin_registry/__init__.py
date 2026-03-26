@@ -46,16 +46,12 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
 
     def __new__(cls):
         if cls._instance is None:
-            cls._instance = super().__new__(cls)
+            instance = super().__new__(cls)
+            instance.collect_plugins()
+            cls._instance = instance
         # The following can cause issues with the type checker, ignore the line to make it assume
         # standard behavior of returning an instance of cls (which should be the case).
         return cls._instance  # type: ignore
-
-    def __init__(self) -> None:
-        if hasattr(self, "plugins"):
-            # init has been called before
-            return
-        self.collect_plugins()
 
     ######## Abstract methods ########
 

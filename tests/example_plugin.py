@@ -38,7 +38,7 @@ class ExamplePluginRegistry(PluginRegistryBase[ExamplePlugin]):
     def new(cls) -> "ExamplePluginRegistry":
         """Create a new non-singleton instance for testing."""
         instance = object.__new__(cls)
-        instance.__init__()
+        instance.collect_plugins()
         return instance
 
     @property
