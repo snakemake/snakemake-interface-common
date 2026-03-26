@@ -190,7 +190,7 @@ class PluginRegistryBase(ABC, Generic[TPlugin]):
             attr_value = getattr(module, attr)
             if attr_type.is_class:
                 # check for class type
-                if not issubclass(attr_value, attr_type.cls):
+                if not isinstance(attr_value, type) or not issubclass(attr_value, attr_type.cls):
                     raise InvalidPluginException(
                         name,
                         f"{attr} must be a subclass of "
