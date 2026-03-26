@@ -81,11 +81,15 @@ def test_snakemake_version():
 
 @dataclass
 class TestSettings(SettingsBase):
+    __test__ = False
+
     required_int: int = 42
     optional_int: Optional[int] = None
 
 
 class TestPlugin(PluginBase[TestSettings]):
+    __test__ = False
+
     @property
     def name(self) -> str:
         return "test_plugin"
