@@ -13,8 +13,17 @@ from .example_plugin import ExamplePlugin, ExamplePluginRegistry
 PLUGIN_DIR = Path(__file__).parent / "plugins"
 
 
+@pytest.fixture(autouse=True)
+def _reset_example_registry_singleton():
+    """Reset the singleton instance of ExamplePluginRegistry before/after all tests."""
+    ExamplePluginRegistry._instance = None
+    yield
+    ExamplePluginRegistry._instance = None
+
+
 def test_basic():
     """Test basic attributes and behavior."""
+
     registry = ExamplePluginRegistry()
     assert registry.get_plugin_type() == "example"
 
@@ -33,7 +42,7 @@ def test_discovery(monkeypatch: pytest.MonkeyPatch):
     # Add directory of valid plugins to import path so they can be discovered by module name
     monkeypatch.syspath_prepend(str(PLUGIN_DIR / "valid"))
 
-    registry = ExamplePluginRegistry.new()
+    registry = ExamplePluginRegistry()
 
     expected_plugins = {"valid-1", "valid-2"}
     plugins: dict[str, ExamplePlugin] = {}
@@ -64,7 +73,7 @@ def test_missing_attr(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.syspath_prepend(str(PLUGIN_DIR / "missing-attr"))
 
     with pytest.raises(InvalidPluginException) as exc_info:
-        ExamplePluginRegistry.new()
+        ExamplePluginRegistry()
 
     errmsg = str(exc_info.value)
     assert "missing-attr" in errmsg
@@ -77,7 +86,7 @@ def test_invalid_object(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.syspath_prepend(str(PLUGIN_DIR / "invalid-object"))
 
     with pytest.raises(InvalidPluginException) as exc_info:
-        ExamplePluginRegistry.new()
+        ExamplePluginRegistry()
 
     errmsg = str(exc_info.value)
     assert "invalid-object" in errmsg
@@ -90,7 +99,7 @@ def test_invalid_class(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.syspath_prepend(str(PLUGIN_DIR / "invalid-class"))
 
     with pytest.raises(InvalidPluginException) as exc_info:
-        ExamplePluginRegistry.new()
+        ExamplePluginRegistry()
 
     errmsg = str(exc_info.value)
     assert "invalid-class" in errmsg
