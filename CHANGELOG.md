@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.23.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.23.0...v1.23.1) (2026-09-07)
+
+
+### Bug Fixes
+
+* bump packaging dependency ([#96](https://github.com/snakemake/snakemake-interface-common/issues/96)) ([f670e5c](https://github.com/snakemake/snakemake-interface-common/commit/f670e5cf3fbc6e88f7ffbe5d1ceec0a60f6cdce6))
+* recover handling of typing.Optional[X] ([#90](https://github.com/snakemake/snakemake-interface-common/issues/90)) ([62cf62e](https://github.com/snakemake/snakemake-interface-common/commit/62cf62e202dd6b0f8c193ef391b6e196182dcd66))
+
 ## [1.23.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.22.0...v1.23.0) (2026-03-08)
 
 
