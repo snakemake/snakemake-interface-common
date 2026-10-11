@@ -16,3 +16,6 @@ class AnnotatedStringInterface(ABC):
 
     def is_flagged(self, flag: str) -> bool:
         return flag in self.flags and bool(self.flags[flag])
+
+    @abstractmethod
+    def is_ondemand_eligible(self) -> bool: ...
