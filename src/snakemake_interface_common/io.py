@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from enum import StrEnum
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 
 class AccessPattern(StrEnum):
@@ -25,4 +25,4 @@ class AnnotatedStringInterface(ABC):
         return flag in self.flags and bool(self.flags[flag])
 
     @abstractmethod
-    def access_pattern(self) -> AccessPattern: ...
+    def access_pattern(self) -> Optional[AccessPattern]: ...
