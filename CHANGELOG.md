@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.24.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.23.1...v1.24.0) (2026-10-11)
+
+
+### Features
+
+* expose access_pattern on iofiles, allowing e.g. executor plugins to decide about stage-in ([#97](https://github.com/snakemake/snakemake-interface-common/issues/97)) ([16936b8](https://github.com/snakemake/snakemake-interface-common/commit/16936b87591589ee6c06a971fd964e955286ccff))
+
 ## [1.23.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.23.0...v1.23.1) (2026-09-07)
 
 
