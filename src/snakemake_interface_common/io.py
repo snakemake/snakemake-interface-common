@@ -1,5 +1,12 @@
 from abc import ABC, abstractmethod
+from enum import StrEnum
 from typing import Any, Dict
+
+
+class AccessPattern(StrEnum):
+    RANDOM = "random"
+    SEQUENTIAL = "sequential"
+    MULTI = "multi"
 
 
 class AnnotatedStringInterface(ABC):
@@ -18,4 +25,4 @@ class AnnotatedStringInterface(ABC):
         return flag in self.flags and bool(self.flags[flag])
 
     @abstractmethod
-    def is_ondemand_eligible(self) -> bool: ...
+    def access_pattern(self) -> AccessPattern: ...
