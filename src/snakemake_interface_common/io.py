@@ -1,13 +1,14 @@
+import sys
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Optional
 
-try:
+if sys.version_info >= (3, 11):
     from enum import StrEnum
-except ImportError:  # Python < 3.11, e.g. in script envs
+else:  # e.g. in script envs
     from enum import Enum
 
     class StrEnum(str, Enum):
-        def __str__(self):
+        def __str__(self) -> str:
             return str(self.value)
 
 
