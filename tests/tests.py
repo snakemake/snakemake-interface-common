@@ -138,3 +138,10 @@ def test_settings_optional_int_none():
     assert settings.required_int == 789
 
     assert settings.optional_int is None
+
+
+def test_access_pattern_str():
+    from snakemake_interface_common.io import AccessPattern
+
+    assert str(AccessPattern.RANDOM) == "random"
+    assert f"{AccessPattern.MULTI}" == "multi"
