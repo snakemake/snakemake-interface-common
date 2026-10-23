@@ -1,5 +1,5 @@
-from dataclasses import dataclass
-from typing import Optional
+from dataclasses import dataclass, field
+from typing import List, Optional
 import pytest
 
 from snakemake_interface_common import at_least_snakemake_version
@@ -138,3 +138,32 @@ def test_settings_optional_int_none():
     assert settings.required_int == 789
 
     assert settings.optional_int is None
+
+
+@dataclass
+class ListSettings(SettingsBase):
+    mounts: Optional[List[str]] = field(
+        default=None, metadata={"help": "mounts", "nargs": "+"}
+    )
+    ints: List[int] = field(
+        default_factory=list, metadata={"help": "ints", "nargs": "+"}
+    )
+
+
+class ListPlugin(TestPlugin):
+    @property
+    def settings_cls(self):
+        return ListSettings
+
+
+@pytest.mark.parametrize(
+    "mounts, ints", [(["/a:/a", "/b:/b"], [1, 2]), (["/a:/a"], ["1", "2"])]
+)
+def test_settings_list_nargs(mounts, ints):
+    class MockArgs:
+        test_mounts = mounts
+        test_ints = ints
+
+    settings = ListPlugin().get_settings(MockArgs())
+    assert settings.mounts == mounts
+    assert settings.ints == [1, 2]
