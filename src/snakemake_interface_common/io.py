@@ -1,6 +1,14 @@
 from abc import ABC, abstractmethod
-from enum import StrEnum
 from typing import Any, Dict, Optional
+
+try:
+    from enum import StrEnum
+except ImportError:  # Python < 3.11, e.g. in script envs
+    from enum import Enum
+
+    class StrEnum(str, Enum):
+        def __str__(self):
+            return str(self.value)
 
 
 class AccessPattern(StrEnum):
