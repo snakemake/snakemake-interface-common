@@ -167,3 +167,10 @@ def test_settings_list_nargs(mounts, ints):
     settings = ListPlugin().get_settings(MockArgs())
     assert settings.mounts == mounts
     assert settings.ints == [1, 2]
+
+
+def test_access_pattern_str():
+    from snakemake_interface_common.io import AccessPattern
+
+    assert str(AccessPattern.RANDOM) == "random"
+    assert f"{AccessPattern.MULTI}" == "multi"
