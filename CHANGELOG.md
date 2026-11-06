@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.24.1](https://github.com/snakemake/snakemake-interface-common/compare/v1.24.0...v1.24.1) (2026-11-06)
+
+
+### Bug Fixes
+
+* fall back to a local StrEnum on Python &lt; 3.11 ([#101](https://github.com/snakemake/snakemake-interface-common/issues/101)) ([d5077a9](https://github.com/snakemake/snakemake-interface-common/commit/d5077a993d75f3528f72b19ebc83b83ec44490e2))
+* parse list-valued plugin settings with nargs ([#102](https://github.com/snakemake/snakemake-interface-common/issues/102)) ([98d3a28](https://github.com/snakemake/snakemake-interface-common/commit/98d3a28f3790f4c6c98202995e9119dc5b7bbdb9))
+
 ## [1.24.0](https://github.com/snakemake/snakemake-interface-common/compare/v1.23.1...v1.24.0) (2026-10-11)
 
 
